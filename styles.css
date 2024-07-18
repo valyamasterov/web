@@ -1,0 +1,9 @@
+.ProjectRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 32px;
+}
+
+.ProjectRow div {
+    width: 80%;
+}
