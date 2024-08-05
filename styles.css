@@ -10,13 +10,19 @@ body {
 
 body a {
     color: orangered;
+    text-decoration: none;
 }
 
-#TopContainer {
+#ContactContainer {
+    font-size: 22px;
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     margin-bottom: 64px;
     color: orangered;
+    margin-bottom: 64px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid orangered;
+    column-gap: 16px;
 }
 
 .ProjectRow {
@@ -26,12 +32,12 @@ body a {
 }
 
 .ProjectRow div {
-    width: 60%;
-    font-size: 24px;
+    width: 40%;
+    font-size: 22px;
 }
 
 .ProjectRow div:nth-child(2) {
     width: 100%;
-    margin-left: 64px;
-    font-size: 16px;
+    margin-left: 5%;
+    font-size: 18px;
 }
