@@ -1,7 +1,7 @@
 body {
     padding: 3%;
     margin: 0 auto;
-    max-width: 1200px;
+    max-width: 1480px;
     font-family: "IBM Plex Mono", monospace;
     font-weight: 400;
     font-style: normal;
@@ -11,6 +11,10 @@ body {
 body a {
     color: orangered;
     text-decoration: none;
+}
+
+.ProjectRow div:nth-child(1) a:hover {
+    font-size: 32px;
 }
 
 #ContactContainer {
@@ -29,15 +33,25 @@ body a {
     display: flex;
     justify-content: space-between;
     margin-bottom: 32px;
+    flex-wrap: wrap;
 }
 
 .ProjectRow div {
-    width: 40%;
+    width: 30%;
     font-size: 22px;
+    margin-bottom: 24px;
 }
 
 .ProjectRow div:nth-child(2) {
-    width: 100%;
-    margin-left: 5%;
+    width: 65%;
     font-size: 18px;
 }
+
+@media only screen and (max-width: 960px) {
+    .ProjectRow div {
+        min-width: 100%;
+    }
+    .ProjectRow div:nth-child(2) {
+        min-width: 100%;
+    }
+  }
