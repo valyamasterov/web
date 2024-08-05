@@ -24,9 +24,10 @@ body a {
     margin-bottom: 64px;
     color: orangered;
     margin-bottom: 64px;
-    padding-bottom: 6px;
+    padding-bottom: 12px;
     border-bottom: 1px solid orangered;
     column-gap: 16px;
+    row-gap: 8px;
 }
 
 .ProjectRow {
@@ -50,8 +51,20 @@ body a {
 @media only screen and (max-width: 960px) {
     .ProjectRow div {
         min-width: 100%;
+        font-size: 32px;
     }
     .ProjectRow div:nth-child(2) {
         min-width: 100%;
+        font-size: 24px;
     }
+    #ContactContainer {
+        font-size: 24px;
+        display: flex;
+        justify-content: left;
+        flex-wrap: wrap;
+    }
+    #ContactContainer span {
+        width: 100%;
+    }
+
   }
