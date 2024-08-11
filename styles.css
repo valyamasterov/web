@@ -48,23 +48,41 @@ body a {
     font-size: 18px;
 }
 
+.ProjectRow div:nth-child(2) a:hover{
+    text-decoration: underline;
+}
+
+.TagElement {
+    padding: 6px 12px;
+    background-color: orangered;
+    color: white;
+    border-radius: 24px;
+    margin: 12px 12px 0px 0px;
+    display: inline-block;
+    font-size: 12px;
+}
+
 @media only screen and (max-width: 960px) {
     .ProjectRow div {
         min-width: 100%;
-        font-size: 32px;
+        font-size: 28px;
     }
     .ProjectRow div:nth-child(2) {
         min-width: 100%;
-        font-size: 24px;
+        font-size: 18px;
     }
     #ContactContainer {
-        font-size: 24px;
+        font-size: 18px;
         display: flex;
         justify-content: left;
         flex-wrap: wrap;
     }
     #ContactContainer span {
         width: 100%;
+    }
+
+    .TagElement {
+        font-size: 12px;
     }
 
   }
