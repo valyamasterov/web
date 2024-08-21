@@ -13,8 +13,12 @@ body a {
     text-decoration: none;
 }
 
+.ProjectRow div:nth-child(1) a {
+    transition: font-size 0.3s ease;
+}
+
 .ProjectRow div:nth-child(1) a:hover {
-    font-size: 32px;
+    font-size: 26px;
 }
 
 #ContactContainer {
@@ -30,11 +34,24 @@ body a {
     row-gap: 8px;
 }
 
+#FooterContainer {
+    font-size: 22px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30vh;
+    color: orangered;
+    padding-top: 12px;
+    border-top: 1px solid orangered;
+    column-gap: 16px;
+    row-gap: 8px;
+}
+
 .ProjectRow {
     display: flex;
     justify-content: space-between;
     margin-bottom: 32px;
     flex-wrap: wrap;
+    position: relative;
 }
 
 .ProjectRow div {
@@ -46,6 +63,7 @@ body a {
 .ProjectRow div:nth-child(2) {
     width: 65%;
     font-size: 18px;
+    height: 100%;
 }
 
 .ProjectRow div:nth-child(2) a:hover{
