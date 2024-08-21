@@ -72,6 +72,11 @@ body a {
     width: 65%;
     font-size: 18px;
     height: 100%;
+    transition: scale 0.3s ease;
+}
+
+.ProjectRow div:nth-child(2):hover {
+    scale: 1.01;
 }
 
 .ProjectRow div:nth-child(2) a{
