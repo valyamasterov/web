@@ -34,6 +34,14 @@ body a {
     row-gap: 8px;
 }
 
+#ContactContainer a{
+    transition: color 1s ease;
+}
+
+#ContactContainer a:hover{
+    color: black;
+}
+
 #FooterContainer {
     font-size: 22px;
     display: flex;
@@ -66,8 +74,12 @@ body a {
     height: 100%;
 }
 
+.ProjectRow div:nth-child(2) a{
+    transition: font-size 0.3s ease;
+}
+
 .ProjectRow div:nth-child(2) a:hover{
-    text-decoration: underline;
+    font-size: 22px;
 }
 
 .TagElement {
@@ -78,6 +90,16 @@ body a {
     margin: 12px 12px 0px 0px;
     display: inline-block;
     font-size: 12px;
+}
+
+.TagElement {
+    cursor: default;
+    transition: background-color 1s ease;
+}
+
+.TagElement:hover {
+    background-color: black;
+
 }
 
 @media only screen and (max-width: 960px) {
