@@ -72,6 +72,7 @@ body a {
     width: 65%;
     font-size: 18px;
     height: 100%;
+    min-height: 80px;
     transition: scale 0.3s ease;
 }
 
@@ -79,12 +80,8 @@ body a {
     scale: 1.01;
 }
 
-.ProjectRow div:nth-child(2) a{
-    transition: font-size 0.3s ease;
-}
-
 .ProjectRow div:nth-child(2) a:hover{
-    font-size: 22px;
+    text-decoration: underline;
 }
 
 .TagElement {
