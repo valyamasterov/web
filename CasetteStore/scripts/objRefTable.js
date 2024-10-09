@@ -21,12 +21,18 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.System.Exps.viewportright,
 		C3.Plugins.Mouse.Cnds.IsOverObject,
 		C3.Plugins.Shape3D.Acts.RotateClockwise,
-		C3.Plugins.Touch.Cnds.OnHoldGestureObject,
+		C3.Plugins.Touch.Cnds.IsTouchingObject,
 		C3.Behaviors.Car.Acts.SimulateControl,
 		C3.Plugins.Touch.Cnds.CompareTouchSpeed,
 		C3.Plugins.System.Cnds.CompareBetween,
 		C3.Plugins.Touch.Exps.AngleAt,
-		C3.Plugins.Sprite.Acts.RotateClockwise
+		C3.Plugins.Sprite.Acts.RotateClockwise,
+		C3.Plugins.Touch.Cnds.OnTouchStart,
+		C3.Plugins.System.Acts.SetVar,
+		C3.Plugins.Keyboard.Cnds.OnAnyKey,
+		C3.Plugins.Mouse.Cnds.OnAnyClick,
+		C3.Plugins.System.Cnds.CompareVar,
+		C3.Plugins.Sprite.Acts.SetVisible
 	];
 };
 self.C3_JsPropNameTable = [
@@ -50,7 +56,8 @@ self.C3_JsPropNameTable = [
 	{TapeCollision_7: 0},
 	{ButtonUp: 0},
 	{ButtonDown: 0},
-	{Touch: 0}
+	{Touch: 0},
+	{DEVICE: 0}
 ];
 
 self.InstanceType = {
