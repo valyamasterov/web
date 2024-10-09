@@ -4760,7 +4760,6 @@ self.C3_ExpressionFuncs = [
 			const f2 = p._GetNode(2).GetBoundMethod();
 			return () => (f0("UI") + ((f1("UI") - f2("UI")) / 2));
 		},
-		() => 5,
 		() => 0,
 		() => 200,
 		p => {
@@ -4773,7 +4772,8 @@ self.C3_ExpressionFuncs = [
 		() => 225,
 		() => -2,
 		() => "Mobile",
-		() => "Desktop"
+		() => "Desktop",
+		() => 5
 ];
 
 

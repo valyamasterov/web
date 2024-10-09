@@ -19,8 +19,11 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.Sprite.Acts.SetX,
 		C3.Plugins.System.Exps.viewportleft,
 		C3.Plugins.System.Exps.viewportright,
+		C3.Plugins.Sprite.Acts.SetPos,
+		C3.Plugins.Sprite.Acts.SetAngle,
+		C3.Plugins.Mouse.Cnds.OnClick,
+		C3.Plugins.Sprite.Cnds.IsOverlapping,
 		C3.Plugins.Mouse.Cnds.IsOverObject,
-		C3.Plugins.Shape3D.Acts.RotateClockwise,
 		C3.Plugins.Touch.Cnds.IsTouchingObject,
 		C3.Behaviors.Car.Acts.SimulateControl,
 		C3.Plugins.Touch.Cnds.CompareTouchSpeed,
@@ -32,7 +35,8 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.Keyboard.Cnds.OnAnyKey,
 		C3.Plugins.Mouse.Cnds.OnAnyClick,
 		C3.Plugins.System.Cnds.CompareVar,
-		C3.Plugins.Sprite.Acts.SetVisible
+		C3.Plugins.Sprite.Acts.SetVisible,
+		C3.Plugins.Shape3D.Acts.RotateClockwise
 	];
 };
 self.C3_JsPropNameTable = [
@@ -57,6 +61,7 @@ self.C3_JsPropNameTable = [
 	{ButtonUp: 0},
 	{ButtonDown: 0},
 	{Touch: 0},
+	{DistanceChecker: 0},
 	{DEVICE: 0}
 ];
 
@@ -78,5 +83,6 @@ self.InstanceType = {
 	TapeCollision_7: class extends self.I3DShapeInstance {},
 	ButtonUp: class extends self.ISpriteInstance {},
 	ButtonDown: class extends self.ISpriteInstance {},
-	Touch: class extends self.IInstance {}
+	Touch: class extends self.IInstance {},
+	DistanceChecker: class extends self.ISpriteInstance {}
 }
