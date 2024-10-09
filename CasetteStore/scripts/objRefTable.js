@@ -11,6 +11,7 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.Keyboard,
 		C3.Plugins.Mouse,
 		C3.Plugins.Touch,
+		C3.Plugins.HTMLElement,
 		C3.Plugins.System.Cnds.EveryTick,
 		C3.Plugins.Camera3D.Acts.LookParallelToLayout,
 		C3.Plugins.Sprite.Exps.X,
@@ -62,6 +63,7 @@ self.C3_JsPropNameTable = [
 	{ButtonDown: 0},
 	{Touch: 0},
 	{DistanceChecker: 0},
+	{HTMLElement: 0},
 	{DEVICE: 0}
 ];
 
@@ -84,5 +86,6 @@ self.InstanceType = {
 	ButtonUp: class extends self.ISpriteInstance {},
 	ButtonDown: class extends self.ISpriteInstance {},
 	Touch: class extends self.IInstance {},
-	DistanceChecker: class extends self.ISpriteInstance {}
+	DistanceChecker: class extends self.ISpriteInstance {},
+	HTMLElement: class extends self.IHTMLElementInstance {}
 }
