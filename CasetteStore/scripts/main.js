@@ -192,6 +192,13 @@ new Image(width,height);imgElem.src=blobUrl;if(e["id"])imgElem.id=e["id"];if(e["
 elem.querySelector(selector);if(!elem)return}if(direction==="left")elem.scrollLeft=position;else elem.scrollTop=position}};self.RuntimeInterface.AddDOMHandlerClass(HANDLER_CLASS)};
 
 
+// scripts/plugins/Button/dom/domSide.js
+'use strict';{const DOM_COMPONENT_ID="button";function StopPropagation(e){e.stopPropagation()}const HANDLER_CLASS=class ButtonDOMHandler extends self.DOMElementHandler{constructor(iRuntime){super(iRuntime,DOM_COMPONENT_ID)}CreateElement(elementId,e){const inputElem=document.createElement("input");const isCheckbox=e["isCheckbox"];let mainElem=inputElem;if(isCheckbox){inputElem.type="checkbox";const labelElem=document.createElement("label");labelElem.appendChild(inputElem);labelElem.appendChild(document.createTextNode(""));
+labelElem.style.fontFamily="sans-serif";labelElem.style.userSelect="none";labelElem.style.webkitUserSelect="none";labelElem.style.display="inline-block";labelElem.style.color="black";mainElem=labelElem}else inputElem.type="button";mainElem.style.position="absolute";mainElem.addEventListener("pointerdown",StopPropagation);mainElem.addEventListener("pointermove",StopPropagation);mainElem.addEventListener("pointerrawupdate",StopPropagation);mainElem.addEventListener("pointerup",StopPropagation);mainElem.addEventListener("mousedown",
+StopPropagation);mainElem.addEventListener("mouseup",StopPropagation);mainElem.addEventListener("keydown",StopPropagation);mainElem.addEventListener("keyup",StopPropagation);mainElem.addEventListener("contextmenu",e=>e.preventDefault());inputElem.addEventListener("click",()=>this._PostToRuntimeElementMaybeSync("click",elementId,{"isChecked":inputElem.checked}));if(e["id"])inputElem.id=e["id"];if(e["className"])inputElem.className=e["className"];this.UpdateState(mainElem,e);return mainElem}_GetInputElem(mainElem){if(mainElem.tagName.toLowerCase()===
+"input")return mainElem;else return mainElem.firstChild}_GetFocusElement(mainElem){return this._GetInputElem(mainElem)}UpdateState(mainElem,e){const inputElem=this._GetInputElem(mainElem);inputElem.checked=e["isChecked"];inputElem.disabled=!e["isEnabled"];mainElem.title=e["title"];if(mainElem===inputElem)inputElem.value=e["text"];else mainElem.lastChild.textContent=e["text"]}};self.RuntimeInterface.AddDOMHandlerClass(HANDLER_CLASS)};
+
+
 // start-export.js
-'use strict';{if(window["C3_Is_Supported"]){const enableWorker=true;window["c3_runtimeInterface"]=new self.RuntimeInterface({useWorker:enableWorker,workerMainUrl:"workermain.js",runtimeScriptList:["scripts/c3main.js"],scriptFolder:"scripts/",exportType:"html5"})}};
+'use strict';{if(window["C3_Is_Supported"]){const enableWorker=false;window["c3_runtimeInterface"]=new self.RuntimeInterface({useWorker:enableWorker,workerMainUrl:"workermain.js",runtimeScriptList:["scripts/c3main.js"],scriptFolder:"scripts/",exportType:"html5"})}};
 

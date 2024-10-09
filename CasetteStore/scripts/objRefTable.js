@@ -12,6 +12,7 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.Mouse,
 		C3.Plugins.Touch,
 		C3.Plugins.HTMLElement,
+		C3.Plugins.Button,
 		C3.Plugins.System.Cnds.EveryTick,
 		C3.Plugins.Camera3D.Acts.LookParallelToLayout,
 		C3.Plugins.Sprite.Exps.X,
@@ -22,6 +23,9 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.System.Exps.viewportright,
 		C3.Plugins.Sprite.Acts.SetPos,
 		C3.Plugins.Sprite.Acts.SetAngle,
+		C3.Plugins.Button.Acts.SetPos,
+		C3.Plugins.System.Exps.viewporttop,
+		C3.Plugins.HTMLElement.Acts.SetPos,
 		C3.Plugins.Mouse.Cnds.OnClick,
 		C3.Plugins.Sprite.Cnds.IsOverlapping,
 		C3.Plugins.Mouse.Cnds.IsOverObject,
@@ -37,7 +41,11 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.Mouse.Cnds.OnAnyClick,
 		C3.Plugins.System.Cnds.CompareVar,
 		C3.Plugins.Sprite.Acts.SetVisible,
-		C3.Plugins.Shape3D.Acts.RotateClockwise
+		C3.Plugins.Shape3D.Acts.RotateClockwise,
+		C3.Plugins.HTMLElement.Acts.SetVisible,
+		C3.Plugins.System.Cnds.OnLayoutStart,
+		C3.Plugins.System.Acts.Wait,
+		C3.ScriptsInEvents.EventSheet1_Event20
 	];
 };
 self.C3_JsPropNameTable = [
@@ -63,7 +71,10 @@ self.C3_JsPropNameTable = [
 	{ButtonDown: 0},
 	{Touch: 0},
 	{DistanceChecker: 0},
-	{HTMLElement: 0},
+	{ProductData: 0},
+	{CheckoutScript: 0},
+	{AddToCartButton: 0},
+	{styles: 0},
 	{DEVICE: 0}
 ];
 
@@ -87,5 +98,8 @@ self.InstanceType = {
 	ButtonDown: class extends self.ISpriteInstance {},
 	Touch: class extends self.IInstance {},
 	DistanceChecker: class extends self.ISpriteInstance {},
-	HTMLElement: class extends self.IHTMLElementInstance {}
+	ProductData: class extends self.IHTMLElementInstance {},
+	CheckoutScript: class extends self.IHTMLElementInstance {},
+	AddToCartButton: class extends self.IButtonInstance {},
+	styles: class extends self.IHTMLElementInstance {}
 }
