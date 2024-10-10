@@ -13,6 +13,8 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.Touch,
 		C3.Plugins.HTMLElement,
 		C3.Plugins.Button,
+		C3.Plugins.Audio,
+		C3.Plugins.iframe,
 		C3.Plugins.System.Cnds.EveryTick,
 		C3.Plugins.Camera3D.Acts.LookParallelToLayout,
 		C3.Plugins.Sprite.Exps.X,
@@ -75,6 +77,8 @@ self.C3_JsPropNameTable = [
 	{CheckoutScript: 0},
 	{AddToCartButton: 0},
 	{styles: 0},
+	{Audio: 0},
+	{iframe: 0},
 	{DEVICE: 0}
 ];
 
@@ -101,5 +105,7 @@ self.InstanceType = {
 	ProductData: class extends self.IHTMLElementInstance {},
 	CheckoutScript: class extends self.IHTMLElementInstance {},
 	AddToCartButton: class extends self.IButtonInstance {},
-	styles: class extends self.IHTMLElementInstance {}
+	styles: class extends self.IHTMLElementInstance {},
+	Audio: class extends self.IInstance {},
+	iframe: class extends self.IIframeInstance {}
 }
