@@ -14,6 +14,10 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.HTMLElement,
 		C3.Plugins.Audio,
 		C3.Plugins.iframe,
+		C3.Plugins.System.Cnds.OnLayoutStart,
+		C3.Plugins.System.Acts.Wait,
+		C3.ScriptsInEvents.EventSheet1_Event2,
+		C3.ScriptsInEvents.EventSheet1_Event3,
 		C3.Plugins.System.Cnds.EveryTick,
 		C3.Plugins.Camera3D.Acts.LookParallelToLayout,
 		C3.Plugins.Sprite.Exps.X,
@@ -26,8 +30,9 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.Sprite.Acts.SetAngle,
 		C3.Plugins.HTMLElement.Acts.SetPos,
 		C3.Plugins.System.Exps.viewporttop,
-		C3.Plugins.Mouse.Cnds.OnClick,
-		C3.Plugins.Sprite.Cnds.IsOverlapping,
+		C3.Plugins.HTMLElement.Acts.SetWidth,
+		C3.Plugins.System.Exps.viewportwidth,
+		C3.Plugins.System.Cnds.Compare,
 		C3.Plugins.Touch.Cnds.IsTouchingObject,
 		C3.Behaviors.Car.Acts.SimulateControl,
 		C3.Plugins.Touch.Cnds.CompareTouchSpeed,
@@ -40,14 +45,12 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.Mouse.Cnds.OnAnyClick,
 		C3.Plugins.System.Cnds.CompareVar,
 		C3.Plugins.Sprite.Acts.SetVisible,
+		C3.Plugins.Sprite.Cnds.IsOverlapping,
 		C3.Plugins.Shape3D.Acts.RotateClockwise,
 		C3.Plugins.HTMLElement.Acts.SetVisible,
-		C3.Plugins.System.Cnds.OnLayoutStart,
-		C3.Plugins.System.Acts.Wait,
-		C3.ScriptsInEvents.EventSheet1_Event14,
-		C3.ScriptsInEvents.EventSheet1_Event15,
 		C3.Plugins.System.Cnds.Every,
-		C3.ScriptsInEvents.EventSheet1_Event17
+		C3.ScriptsInEvents.EventSheet1_Event17,
+		C3.Plugins.Keyboard.Cnds.IsKeyDown
 	];
 };
 self.C3_JsPropNameTable = [
@@ -76,6 +79,13 @@ self.C3_JsPropNameTable = [
 	{Sprite: 0},
 	{"3DShape3": 0},
 	{"3DShape4": 0},
+	{Sprite2: 0},
+	{Sprite3: 0},
+	{Ceiling: 0},
+	{TapeProductObject2: 0},
+	{TapeFrontImage2: 0},
+	{TapeSideImage2: 0},
+	{TapeBackImage2: 0},
 	{DEVICE: 0}
 ];
 
@@ -101,5 +111,12 @@ self.InstanceType = {
 	Cart: class extends self.IHTMLElementInstance {},
 	Sprite: class extends self.ISpriteInstance {},
 	_3DShape3: class extends self.I3DShapeInstance {},
-	_3DShape4: class extends self.I3DShapeInstance {}
+	_3DShape4: class extends self.I3DShapeInstance {},
+	Sprite2: class extends self.ISpriteInstance {},
+	Sprite3: class extends self.ISpriteInstance {},
+	Ceiling: class extends self.I3DShapeInstance {},
+	TapeProductObject2: class extends self.I3DShapeInstance {},
+	TapeFrontImage2: class extends self.ISpriteInstance {},
+	TapeSideImage2: class extends self.ISpriteInstance {},
+	TapeBackImage2: class extends self.ISpriteInstance {}
 }

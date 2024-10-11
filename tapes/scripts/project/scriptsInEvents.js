@@ -3,7 +3,7 @@
 
 const scriptsInEvents = {
 
-	async EventSheet1_Event14(runtime, localVars)
+	async EventSheet1_Event2(runtime, localVars)
 	{
 		    // Get all "Add to Cart" buttons on the page
 		    const addToCartButtons = document.querySelectorAll('.add-to-cart');
@@ -32,7 +32,7 @@ const scriptsInEvents = {
 		    .catch(error => console.error('Error fetching stock data:', error));
 	},
 
-	async EventSheet1_Event15(runtime, localVars)
+	async EventSheet1_Event3(runtime, localVars)
 	{
     // Cart will store objects containing both ID and name
     let cart = [];
