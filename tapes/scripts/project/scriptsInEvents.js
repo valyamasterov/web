@@ -123,42 +123,52 @@ const scriptsInEvents = {
     // Initial rendering of the cart
     renderCart(); // Ensure the cart is rendered initially
 
-    // Checkout functionality
-    document.getElementById('open-checkout').addEventListener('click', function () {
-        // Check if the cart is empty
-        if (cart.length === 0) {
-            alert("Your cart is empty.");
-            return;
-        }
+// Checkout functionality
+document.getElementById('open-checkout').addEventListener('click', function () {
+    // Check if the cart is empty
+    if (cart.length === 0) {
+        alert("Your cart is empty.");
+        return;
+    }
 
-        // Extract only product IDs for the POST request
-        const productIds = cart.map(item => item.id);
+    // Extract only product IDs for the POST request
+    const productIds = cart.map(item => item.id);
 
-        fetch('https://portachi.com/mbl/checkout_session.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ items: productIds }),  // Send only product IDs to the backend
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (!data.success) {
-                if (data.insufficient_stock_items && data.insufficient_stock_items.length > 0) {
-                    let alertMessage = "The following items have insufficient stock:\n";
-                    data.insufficient_stock_items.forEach(item => {
-                        alertMessage += `${item.product_name} - Available: ${item.available_stock}, Attempted: ${item.attempted_quantity}\n`;
-                    });
-                    alert(alertMessage);
-                } else {
-                    alert('Error: ' + data.error);
-                }
-            } else if (data.url) {
-                window.location.href = data.url;  // Redirect to Stripe checkout
+    fetch('https://portachi.com/mbl/checkout_session.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ items: productIds }),  // Send only product IDs to the backend
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Check if the response is valid and contains a success flag
+        if (data && typeof data.success === 'boolean' && !data.success) {
+            // If there are insufficient stock items, notify the user
+            if (data.insufficient_stock_items && data.insufficient_stock_items.length > 0) {
+                let alertMessage = "The following items have insufficient stock:\n";
+                data.insufficient_stock_items.forEach(item => {
+                    alertMessage += `${item.product_name} - Available: ${item.available_stock}, Attempted: ${item.attempted_quantity}\n`;
+                });
+                alert(alertMessage);
             }
-        })
-        .catch(error => console.error('Error:', error));
+
+            // Ignore the error if it’s undefined and continue
+            if (data.error) {
+                console.warn('Error: ', data.error); // Log the error without alerting the user
+            }
+        } else if (data && data.url) { // Ensure data is defined before accessing url
+            window.location.href = data.url;  // Redirect to Stripe checkout
+        } else {
+            console.warn('Unexpected response structure:', data); // Log unexpected response
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Optionally log an error message without alerting the user
     });
+});
 	},
 
 	async EventSheet1_Event17(runtime, localVars)
