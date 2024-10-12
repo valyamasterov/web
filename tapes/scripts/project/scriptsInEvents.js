@@ -171,7 +171,7 @@ document.getElementById('open-checkout').addEventListener('click', function () {
 });
 	},
 
-	async EventSheet1_Event17(runtime, localVars)
+	async EventSheet1_Event18(runtime, localVars)
 	{
 		    // Get all "Add to Cart" buttons on the page
 		    const addToCartButtons = document.querySelectorAll('.add-to-cart');
