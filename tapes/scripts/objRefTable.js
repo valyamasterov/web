@@ -49,8 +49,9 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.Sprite.Cnds.IsOverlapping,
 		C3.Plugins.Shape3D.Acts.RotateClockwise,
 		C3.Plugins.HTMLElement.Acts.SetVisible,
+		C3.Plugins.System.Cnds.ForEach,
 		C3.Plugins.System.Cnds.Every,
-		C3.ScriptsInEvents.EventSheet1_Event18,
+		C3.ScriptsInEvents.EventSheet1_Event19,
 		C3.Plugins.Keyboard.Cnds.IsKeyDown
 	];
 };
