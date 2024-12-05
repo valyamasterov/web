@@ -42,7 +42,7 @@ const Calculator = ({ calculateDistance }) => {
           return;
         }
         const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${config.GOOGLE_API_KEY}&libraries=places`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAZZXEpOD9AUtM9k2f3u9ZPn-BzBXCFAvE&libraries=places`;
         script.async = true;
         script.defer = true;
         script.onload = resolve;
