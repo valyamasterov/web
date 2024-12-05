@@ -1,0 +1,116 @@
+.container {
+    padding: 2em;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 1em 1em;
+    justify-content: space-between;
+}
+
+.resultcard {
+    width: auto;
+    padding: 1.5em;
+    display: flex;
+    justify-content: space-between;
+    column-gap: 2em;
+    border: 1px solid rgba(242, 242, 242, 1);
+    border-radius: 1em;
+}
+
+.cardleft {
+    width: 48%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;}
+
+.cardright {
+    padding: 1em;
+    width: 48%;
+    height: auto;
+    background-color: rgba(242, 242, 242, 1);
+    border-radius: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 1em;
+}
+
+.price {
+    font-family: "Inter", sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 41px;
+    width: 100%;
+    text-align: center;
+}
+
+.cardleft img {
+    width: 100%;
+    height: auto;
+}
+
+.companylogo img {
+    width: 120px;
+    height: auto;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 100px;
+}
+
+.resultcardheader {
+    display: flex;
+    align-items: center;
+    column-gap: 1em;
+}
+
+.resultcardheader span{
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 26px;
+}
+
+.resulttable {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-column-gap: 1em;
+}
+
+.resulttable p {
+    color: rgba(135, 135, 135, 1);
+    font-family: "Work Sans", sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.resulttable span {
+    color: black;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+
+
+}
+
+
+@media only screen and (max-width: 1100px) {
+    .container {
+        grid-template-columns: auto;
+        padding: 1em;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .resultcard {
+        flex-direction: column;
+    }
+
+    .cardright, .cardleft {
+        width: auto;
+    }
+
+    .cardright {
+        padding: 2em;
+    }
+}
