@@ -5,9 +5,9 @@ const scriptsInEvents = {
 	async EventSheet1_Event3(runtime, localVars)
 	{
 try {
-    const TILE = 80;
-    const MIN_SIZE = 400;
-    const MAX_SIZE = 800;
+    const TILE = 64;
+    const MIN_SIZE = 320;
+    const MAX_SIZE = 640;
     const NUM_ROOMS = 8;
 
     const roomType = runtime.objects.RoomCreator;
