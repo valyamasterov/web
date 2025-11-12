@@ -1166,21 +1166,6 @@ self["C3_Shaders"]["colorblend"] = {
 	animated: false,
 	parameters: []
 };
-self["C3_Shaders"]["fogexponential"] = {
-	glsl: "varying mediump vec2 vTex;\nuniform lowp sampler2D samplerFront;\nuniform mediump vec2 srcStart;\nuniform mediump vec2 srcEnd;\nuniform lowp sampler2D samplerDepth;\nuniform mediump vec2 destStart;\nuniform mediump vec2 destEnd;\nuniform mediump float zNear;\nuniform mediump float zFar;\nuniform lowp vec3 fogColor;\nuniform mediump float fogDensity;\nuniform mediump float nearDist;\nvoid main(void)\n{\nmediump float log2 = 1.442695;\nlowp vec4 front = texture2D(samplerFront, vTex);\nmediump vec2 tex = (vTex - srcStart) / (srcEnd - srcStart);\nmediump float depthSample = texture2D(samplerDepth, mix(destStart, destEnd, tex)).r;\nmediump float zLinear = zNear * zFar / (zFar + depthSample * (zNear - zFar));\nmediump float fogDist = max(zLinear - nearDist, 0.0);\nmediump float fogAmount = clamp(1.0 - exp2(-fogDensity * fogDensity * fogDist * fogDist * log2), 0.0, 1.0);\ngl_FragColor = mix(front, vec4(fogColor * front.a, front.a), fogAmount);\n}",
-	glslWebGL2: "",
-	wgsl: "%%SAMPLERFRONT_BINDING%% var samplerFront : sampler;\n%%TEXTUREFRONT_BINDING%% var textureFront : texture_2d<f32>;\n%%SAMPLERDEPTH_BINDING%% var samplerDepth : sampler;\n%%TEXTUREDEPTH_BINDING%% var textureDepth : texture_depth_2d;\nstruct ShaderParams {\nfogColor : vec3<f32>,\nfogDensity : f32,\nnearDist : f32\n};\n%%SHADERPARAMS_BINDING%% var<uniform> shaderParams : ShaderParams;\n%%FRAGMENTINPUT_STRUCT%%\n%%FRAGMENTOUTPUT_STRUCT%%\n%%C3PARAMS_STRUCT%%\nconst log_2 = 1.442695;\n@fragment\nfn main(input : FragmentInput) -> FragmentOutput\n{\nvar front : vec4<f32> = textureSample(textureFront, samplerFront, input.fragUV);\nvar depthSample : f32 = textureSample(textureDepth, samplerDepth, c3_getDepthUV(input.fragPos.xy, textureDepth));\nvar zLinear : f32 = c3_linearizeDepth(depthSample);\nvar fogDist = max(zLinear - shaderParams.nearDist, 0.0);\nvar fogAmount : f32 = clamp(1.0 - exp2(-shaderParams.fogDensity * shaderParams.fogDensity * fogDist * fogDist * log_2), 0.0, 1.0);\nvar output : FragmentOutput;\noutput.color = mix(front, vec4<f32>(shaderParams.fogColor * front.a, front.a), fogAmount);\nreturn output;\n}",
-	blendsBackground: false,
-	usesDepth: true,
-	extendBoxHorizontal: 0,
-	extendBoxVertical: 0,
-	crossSampling: false,
-	mustPreDraw: false,
-	preservesOpaqueness: false,
-	supports3dDirectRendering: false,
-	animated: false,
-	parameters: [["fogColor",0,"color"],["fogDensity",0,"percent"],["nearDist",0,"float"]]
-};
 self["C3_Shaders"]["blurhorizontal"] = {
 	glsl: "varying mediump vec2 vTex;\nuniform mediump sampler2D samplerFront;\nuniform mediump vec2 pixelSize;\nuniform mediump float intensity;\nvoid main(void)\n{\nmediump vec4 sum = vec4(0.0);\nmediump float pixelWidth = pixelSize.x;\nmediump float halfPixelWidth = pixelWidth / 2.0;\nsum += texture2D(samplerFront, vTex - vec2(pixelWidth * 7.0 + halfPixelWidth, 0.0)) * 0.06;\nsum += texture2D(samplerFront, vTex - vec2(pixelWidth * 5.0 + halfPixelWidth, 0.0)) * 0.10;\nsum += texture2D(samplerFront, vTex - vec2(pixelWidth * 3.0 + halfPixelWidth, 0.0)) * 0.13;\nsum += texture2D(samplerFront, vTex - vec2(pixelWidth * 1.0 + halfPixelWidth, 0.0)) * 0.16;\nmediump vec4 front = texture2D(samplerFront, vTex);\nsum += front * 0.10;\nsum += texture2D(samplerFront, vTex + vec2(pixelWidth * 1.0 + halfPixelWidth, 0.0)) * 0.16;\nsum += texture2D(samplerFront, vTex + vec2(pixelWidth * 3.0 + halfPixelWidth, 0.0)) * 0.13;\nsum += texture2D(samplerFront, vTex + vec2(pixelWidth * 5.0 + halfPixelWidth, 0.0)) * 0.10;\nsum += texture2D(samplerFront, vTex + vec2(pixelWidth * 7.0 + halfPixelWidth, 0.0)) * 0.06;\ngl_FragColor = mix(front, sum, intensity);\n}",
 	glslWebGL2: "",
@@ -1210,6 +1195,36 @@ self["C3_Shaders"]["blurvertical"] = {
 	supports3dDirectRendering: false,
 	animated: false,
 	parameters: [["intensity",0,"percent"]]
+};
+self["C3_Shaders"]["vignette"] = {
+	glsl: "varying mediump vec2 vTex;\nuniform lowp sampler2D samplerFront;\nuniform mediump vec2 srcStart;\nuniform mediump vec2 srcEnd;\nuniform mediump float vignetteStart;\nuniform mediump float vignetteEnd;\nvoid main(void)\n{\nlowp vec4 front = texture2D(samplerFront, vTex);\nlowp float a = front.a;\nif (a != 0.0)\nfront.rgb /= a;\nmediump vec2 tex = (vTex - srcStart) / (srcEnd - srcStart);\nlowp float d = distance(tex, vec2(0.5, 0.5));\nfront.rgb *= smoothstep(vignetteEnd, vignetteStart, d);\nfront.rgb *= a;\ngl_FragColor = front;\n}",
+	glslWebGL2: "",
+	wgsl: "%%SAMPLERFRONT_BINDING%% var samplerFront : sampler;\n%%TEXTUREFRONT_BINDING%% var textureFront : texture_2d<f32>;\nstruct ShaderParams {\nvignetteStart : f32,\nvignetteEnd : f32\n};\n%%SHADERPARAMS_BINDING%% var<uniform> shaderParams : ShaderParams;\n%%C3PARAMS_STRUCT%%\n%%C3_UTILITY_FUNCTIONS%%\n%%FRAGMENTINPUT_STRUCT%%\n%%FRAGMENTOUTPUT_STRUCT%%\nconst center : vec2<f32> = vec2<f32>(0.5);\n@fragment\nfn main(input : FragmentInput) -> FragmentOutput\n{\nvar front : vec4<f32> = c3_unpremultiply(textureSample(textureFront, samplerFront, input.fragUV));\nvar rgb : vec3<f32> = front.rgb;\nvar tex : vec2<f32> = c3_srcToNorm(input.fragUV);\nvar d : f32 = distance(tex, center);\nrgb = rgb * smoothstep(shaderParams.vignetteEnd, shaderParams.vignetteStart, d);\nvar output : FragmentOutput;\noutput.color = vec4<f32>(rgb * front.a, front.a);\nreturn output;\n}",
+	blendsBackground: false,
+	usesDepth: false,
+	extendBoxHorizontal: 0,
+	extendBoxVertical: 0,
+	crossSampling: false,
+	mustPreDraw: false,
+	preservesOpaqueness: true,
+	supports3dDirectRendering: false,
+	animated: false,
+	parameters: [["vignetteStart",0,"percent"],["vignetteEnd",0,"percent"]]
+};
+self["C3_Shaders"]["fogexponential"] = {
+	glsl: "varying mediump vec2 vTex;\nuniform lowp sampler2D samplerFront;\nuniform mediump vec2 srcStart;\nuniform mediump vec2 srcEnd;\nuniform lowp sampler2D samplerDepth;\nuniform mediump vec2 destStart;\nuniform mediump vec2 destEnd;\nuniform mediump float zNear;\nuniform mediump float zFar;\nuniform lowp vec3 fogColor;\nuniform mediump float fogDensity;\nuniform mediump float nearDist;\nvoid main(void)\n{\nmediump float log2 = 1.442695;\nlowp vec4 front = texture2D(samplerFront, vTex);\nmediump vec2 tex = (vTex - srcStart) / (srcEnd - srcStart);\nmediump float depthSample = texture2D(samplerDepth, mix(destStart, destEnd, tex)).r;\nmediump float zLinear = zNear * zFar / (zFar + depthSample * (zNear - zFar));\nmediump float fogDist = max(zLinear - nearDist, 0.0);\nmediump float fogAmount = clamp(1.0 - exp2(-fogDensity * fogDensity * fogDist * fogDist * log2), 0.0, 1.0);\ngl_FragColor = mix(front, vec4(fogColor * front.a, front.a), fogAmount);\n}",
+	glslWebGL2: "",
+	wgsl: "%%SAMPLERFRONT_BINDING%% var samplerFront : sampler;\n%%TEXTUREFRONT_BINDING%% var textureFront : texture_2d<f32>;\n%%SAMPLERDEPTH_BINDING%% var samplerDepth : sampler;\n%%TEXTUREDEPTH_BINDING%% var textureDepth : texture_depth_2d;\nstruct ShaderParams {\nfogColor : vec3<f32>,\nfogDensity : f32,\nnearDist : f32\n};\n%%SHADERPARAMS_BINDING%% var<uniform> shaderParams : ShaderParams;\n%%FRAGMENTINPUT_STRUCT%%\n%%FRAGMENTOUTPUT_STRUCT%%\n%%C3PARAMS_STRUCT%%\nconst log_2 = 1.442695;\n@fragment\nfn main(input : FragmentInput) -> FragmentOutput\n{\nvar front : vec4<f32> = textureSample(textureFront, samplerFront, input.fragUV);\nvar depthSample : f32 = textureSample(textureDepth, samplerDepth, c3_getDepthUV(input.fragPos.xy, textureDepth));\nvar zLinear : f32 = c3_linearizeDepth(depthSample);\nvar fogDist = max(zLinear - shaderParams.nearDist, 0.0);\nvar fogAmount : f32 = clamp(1.0 - exp2(-shaderParams.fogDensity * shaderParams.fogDensity * fogDist * fogDist * log_2), 0.0, 1.0);\nvar output : FragmentOutput;\noutput.color = mix(front, vec4<f32>(shaderParams.fogColor * front.a, front.a), fogAmount);\nreturn output;\n}",
+	blendsBackground: false,
+	usesDepth: true,
+	extendBoxHorizontal: 0,
+	extendBoxVertical: 0,
+	crossSampling: false,
+	mustPreDraw: false,
+	preservesOpaqueness: false,
+	supports3dDirectRendering: false,
+	animated: false,
+	parameters: [["fogColor",0,"color"],["fogDensity",0,"percent"],["nearDist",0,"float"]]
 };
 
 }
@@ -1416,10 +1431,16 @@ self.C3_ExpressionFuncs = [
 			const n0 = p._GetNode(0);
 			return () => (n0.ExpObject() + 3);
 		},
-		() => 30,
+		() => "Idle",
+		() => "Cast",
+		() => 4,
 		p => {
 			const v0 = p._GetNode(0).GetVar();
-			return () => (v0.GetValue() - 1);
+			return () => and("Floor ", v0.GetValue());
+		},
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			return () => (and((("Better luck next time!" + "\n") + "This run you've reached floor "), v0.GetValue()) + ".");
 		},
 		p => {
 			const n0 = p._GetNode(0);
@@ -1439,12 +1460,6 @@ self.C3_ExpressionFuncs = [
 			const n0 = p._GetNode(0);
 			return () => (n0.ExpObject() - 90);
 		},
-		() => "HealthBar",
-		p => {
-			const v0 = p._GetNode(0).GetVar();
-			return () => v0.GetValue();
-		},
-		() => 0.2,
 		() => 100,
 		() => 10,
 		p => {
@@ -1482,14 +1497,7 @@ self.C3_ExpressionFuncs = [
 			return () => ((236 / v0.GetValue()) * v1.GetValue());
 		},
 		() => "Damage",
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => (f0() / 2);
-		},
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => (f0() * 1.2);
-		},
+		() => 0.2,
 		() => "GameOver",
 		() => -40,
 		p => {
