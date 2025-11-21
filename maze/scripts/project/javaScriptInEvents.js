@@ -2,13 +2,13 @@
 
 const scriptsInEvents = {
 
-	async EventSheet1_Event7(runtime, localVars)
+	async EventSheet1_Event8(runtime, localVars)
 	{
 try {
     const TILE = 64;
     const MIN_SIZE = 320;
     const MAX_SIZE = 640;
-    const NUM_ROOMS = 8;
+    const NUM_ROOMS = 5;
 
     const roomType = runtime.objects.RoomCreator;
     const wallType = runtime.objects.WallObject;
@@ -73,7 +73,7 @@ try {
         p.setPosition(px, py);
     }
 
-    while (rooms.length < NUM_ROOMS) {
+    while (rooms.length < NUM_ROOMS + Math.floor(runtime.globalVars.CurrentFloor / 5)) {
         const base = rooms[Math.floor(Math.random() * rooms.length)];
         const size = randRoomSizeTiles();
         const dir = Math.floor(Math.random() * 4);
@@ -231,17 +231,15 @@ try {
         const right = key(tx + 1, ty);
 
     if (doorTiles.has(up) || doorTiles.has(down)) {
-        // Vertical corridor (stacked)
         if (doorTiles.has(down)) {
             const inst = doorLeftType.createInstance(layerIndex, tx * TILE + TILE/2, ty * TILE + TILE/2);
-            inst.angle = Math.PI / 2; // ✅ rotate for left-right corridor
+            inst.angle = Math.PI / 2;
         }
         if (doorTiles.has(up)) {
             const inst = doorRightType.createInstance(layerIndex, tx * TILE + TILE/2, ty * TILE + TILE/2);
-            inst.angle = Math.PI / 2; // ✅ rotate for left-right corridor
+            inst.angle = Math.PI / 2;
         }
     } else {
-        // Horizontal corridor (side by side)
         if (doorTiles.has(right)) {
             const inst = doorLeftType.createInstance(layerIndex, tx * TILE + TILE/2, ty * TILE + TILE/2);
             inst.angle = 0;
