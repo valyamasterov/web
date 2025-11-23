@@ -1412,23 +1412,62 @@ self.C3_ExpressionFuncs = [
 			const n0 = p._GetNode(0);
 			return () => n0.ExpObject();
 		},
-		() => 56,
 		() => "1.name",
 		() => "Arcane Shotgun",
 		() => "1.description",
-		() => "Cast 3 spells at a time, lower range",
+		() => "Cast three spells at once at a shorter range",
 		() => "1.price",
 		() => 45,
 		() => "2.name",
 		() => "Elasticity",
 		() => "2.description",
-		() => "Spells bounce off the walls",
+		() => "Spells bounce off walls",
 		() => "2.price",
 		() => 30,
+		() => "3.name",
+		() => "A Quick Bite",
+		() => "3.description",
+		() => "At the start of each level, heal 1 health",
+		() => "3.price",
+		() => 40,
+		() => "4.name",
+		() => "Heavy Heart",
+		() => "4.description",
+		() => "Gain 2 max health, reduced walk speed",
+		() => "4.price",
+		() => 55,
+		() => "5.name",
+		() => "ALL IN",
+		() => "5.description",
+		() => "Max health becomes 2, current damage is doubled",
+		() => "5.price",
+		() => 100,
+		() => "6.name",
+		() => "Glasses",
+		() => "6.description",
+		() => "Increased shooting range",
+		() => "6.price",
+		() => "7.name",
+		() => "No Pain, No Gain",
+		() => "7.description",
+		() => "Gain 5 coins for each point of damage you take",
+		() => "7.price",
+		() => "8.name",
+		() => "Energized",
+		() => "8.description",
+		() => "Casting speed increases while at full health",
+		() => "8.price",
+		() => "9.name",
+		() => "Piercing Spells",
+		() => "9.description",
+		() => "Spells pierce through enemies",
+		() => "9.price",
+		() => 35,
 		() => 3,
+		() => 5,
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => f0(0, 0, 0, 0, 0, 1, 2, 3, 4, 5);
+			return () => f0(0, 0, 1, 2, 3, 4, 5);
 		},
 		() => 10,
 		p => {
@@ -1449,13 +1488,7 @@ self.C3_ExpressionFuncs = [
 		() => "Walls",
 		() => "",
 		() => 2,
-		() => 100,
 		() => -100,
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => f0(360);
-		},
-		() => 5,
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
 			return () => f0(3, 4);
@@ -1492,6 +1525,11 @@ self.C3_ExpressionFuncs = [
 			const f0 = p._GetNode(0).GetBoundMethod();
 			return () => (5 + f0(5));
 		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(360);
+		},
+		() => 9,
 		p => {
 			const n0 = p._GetNode(0);
 			const f1 = p._GetNode(1).GetBoundMethod();
@@ -1599,6 +1637,10 @@ self.C3_ExpressionFuncs = [
 			return () => (n0.ExpObject() + (f1() / 20));
 		},
 		p => {
+			const v0 = p._GetNode(0).GetVar();
+			return () => (v0.GetValue() * 1.5);
+		},
+		p => {
 			const n0 = p._GetNode(0);
 			return () => (n0.ExpObject() - 180);
 		},
@@ -1618,6 +1660,7 @@ self.C3_ExpressionFuncs = [
 			const f2 = p._GetNode(2).GetBoundMethod();
 			return () => add(add(n0.ExpObject(), f1(90, (-90))), f2((-15), 15));
 		},
+		() => 0.05,
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
 			return () => (1 + f0(2));
@@ -1639,8 +1682,6 @@ self.C3_ExpressionFuncs = [
 			const v1 = p._GetNode(1).GetVar();
 			return () => ((480 / v0.GetValue()) * v1.GetValue());
 		},
-		() => "Damage",
-		() => 0.2,
 		() => "GameOver",
 		() => -40,
 		() => "Hiscore",
@@ -1655,7 +1696,6 @@ self.C3_ExpressionFuncs = [
 			return () => (and(((((and((("Better luck next time!" + "\n") + "This run you've reached floor "), v0.GetValue()) + ".") + "\n") + "Your best result is: ") + "[color=#cf8f2b]"), f1()) + "[/color].");
 		},
 		() => 500,
-		() => 200,
 		() => "Bat",
 		p => {
 			const n0 = p._GetNode(0);
@@ -1694,6 +1734,8 @@ self.C3_ExpressionFuncs = [
 			const f1 = p._GetNode(1).GetBoundMethod();
 			return () => add(n0.ExpBehavior(), f1(90, (-90)));
 		},
+		() => 0.2,
+		() => 200,
 		() => "Walk",
 		() => 400,
 		p => {
@@ -1816,7 +1858,7 @@ self.C3_ExpressionFuncs = [
 			const n2 = p._GetNode(2);
 			return () => and((((((((n0.ExpInstVar() + "\n") + "[color=#ffffff]") + n1.ExpInstVar()) + "[/color]") + "\n") + "\n") + "[color=#ffffff] Price: [/color]"), n2.ExpInstVar());
 		},
-		() => 80,
+		() => 60,
 		() => "Fogexponential",
 		() => 150,
 		() => 90,
@@ -1826,6 +1868,15 @@ self.C3_ExpressionFuncs = [
 			return () => and(n0.ExpInstVar(), ".owned");
 		},
 		() => "Pick",
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			return () => (v0.GetValue() - 2);
+		},
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			return () => (v0.GetValue() + 2);
+		},
+		() => 6,
 		() => "UI",
 		() => 1520,
 		p => {
@@ -1840,6 +1891,51 @@ self.C3_ExpressionFuncs = [
 		p => {
 			const v0 = p._GetNode(0).GetVar();
 			return () => (v0.GetValue() * 0.5);
+		},
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			const f1 = p._GetNode(1).GetBoundMethod();
+			return () => (560 + ((480 / v0.GetValue()) * f1()));
+		},
+		() => 820,
+		() => 190,
+		p => {
+			const n0 = p._GetNode(0);
+			return () => (n0.ExpObject() - 7);
+		},
+		p => {
+			const n0 = p._GetNode(0);
+			return () => (n0.ExpObject() + 56);
+		},
+		() => "Damage",
+		() => 7,
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			return () => (v0.GetValue() * 10);
+		},
+		p => {
+			const n0 = p._GetNode(0);
+			const f1 = p._GetNode(1).GetBoundMethod();
+			return () => ((n0.ExpObject() + 100) - f1(200));
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => (40 + f0(40));
+		},
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			return () => (v0.GetValue() * 5);
+		},
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			const v1 = p._GetNode(1).GetVar();
+			return () => (v0.GetValue() + v1.GetValue());
+		},
+		() => 8,
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			const v1 = p._GetNode(1).GetVar();
+			return () => ((v0.GetValue() + v1.GetValue()) + 2);
 		}
 ];
 
