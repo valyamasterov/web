@@ -1151,6 +1151,21 @@ self["C3_Shaders"]["blacknwhite"] = {
 	animated: false,
 	parameters: [["threshold",0,"percent"]]
 };
+self["C3_Shaders"]["setcolor"] = {
+	glsl: "varying mediump vec2 vTex;\nuniform lowp sampler2D samplerFront;\nuniform lowp vec3 setColor;\nvoid main(void)\n{\nlowp float a = texture2D(samplerFront, vTex).a;\ngl_FragColor = vec4(setColor.r * a, setColor.g * a, setColor.b * a, a);\n}",
+	glslWebGL2: "",
+	wgsl: "%%SAMPLERFRONT_BINDING%% var samplerFront : sampler;\n%%TEXTUREFRONT_BINDING%% var textureFront : texture_2d<f32>;\nstruct ShaderParams {\nsetColor : vec3<f32>\n};\n%%SHADERPARAMS_BINDING%% var<uniform> shaderParams : ShaderParams;\n%%FRAGMENTINPUT_STRUCT%%\n%%FRAGMENTOUTPUT_STRUCT%%\n@fragment\nfn main(input : FragmentInput) -> FragmentOutput\n{\nvar a : f32 = textureSample(textureFront, samplerFront, input.fragUV).a;\nvar output : FragmentOutput;\noutput.color = vec4<f32>(shaderParams.setColor * a, a);\nreturn output;\n}",
+	blendsBackground: false,
+	usesDepth: false,
+	extendBoxHorizontal: 0,
+	extendBoxVertical: 0,
+	crossSampling: false,
+	mustPreDraw: false,
+	preservesOpaqueness: true,
+	supports3dDirectRendering: false,
+	animated: false,
+	parameters: [["setColor",0,"color"]]
+};
 self["C3_Shaders"]["colorblend"] = {
 	glsl: "varying mediump vec2 vTex;\nuniform lowp sampler2D samplerFront;\nuniform mediump vec2 srcStart;\nuniform mediump vec2 srcEnd;\nuniform lowp sampler2D samplerBack;\nuniform mediump vec2 destStart;\nuniform mediump vec2 destEnd;\nprecision mediump float;\nvec3 rgb_to_hsl(vec3 color)\n{\nvec3 hsl = vec3(0.0, 0.0, 0.0);\nfloat fmin = min(min(color.r, color.g), color.b);\nfloat fmax = max(max(color.r, color.g), color.b);\nfloat delta = fmax - fmin;\nhsl.z = (fmax + fmin) / 2.0;\nif (delta == 0.0)\n{\nhsl.x = 0.0;\nhsl.y = 0.0;\n}\nelse\n{\nif (hsl.z < 0.5)\nhsl.y = delta / (fmax + fmin);\nelse\nhsl.y = delta / (2.0 - fmax - fmin);\nfloat dR = (((fmax - color.r) / 6.0) + (delta / 2.0)) / delta;\nfloat dG = (((fmax - color.g) / 6.0) + (delta / 2.0)) / delta;\nfloat dB = (((fmax - color.b) / 6.0) + (delta / 2.0)) / delta;\nif (color.r == fmax)\nhsl.x = dB - dG;\nelse if (color.g == fmax)\nhsl.x = (1.0 / 3.0) + dR - dB;\nelse if (color.b == fmax)\nhsl.x = (2.0 / 3.0) + dG - dR;\nif (hsl.x < 0.0)\nhsl.x += 1.0;\nelse if (hsl.x > 1.0)\nhsl.x -= 1.0;\n}\nreturn hsl;\n}\nfloat hue_to_rgb(float f1, float f2, float hue)\n{\nif (hue < 0.0)\nhue += 1.0;\nelse if (hue > 1.0)\nhue -= 1.0;\nfloat ret;\nif ((6.0 * hue) < 1.0)\nret = f1 + (f2 - f1) * 6.0 * hue;\nelse if ((2.0 * hue) < 1.0)\nret = f2;\nelse if ((3.0 * hue) < 2.0)\nret = f1 + (f2 - f1) * ((2.0 / 3.0) - hue) * 6.0;\nelse\nret = f1;\nreturn ret;\n}\nvec3 hsl_to_rgb(vec3 hsl)\n{\nvec3 rgb = vec3(hsl.z);\nif (hsl.y != 0.0)\n{\nfloat f2;\nif (hsl.z < 0.5)\nf2 = hsl.z * (1.0 + hsl.y);\nelse\nf2 = (hsl.z + hsl.y) - (hsl.y * hsl.z);\nfloat f1 = 2.0 * hsl.z - f2;\nrgb.r = hue_to_rgb(f1, f2, hsl.x + (1.0 / 3.0));\nrgb.g = hue_to_rgb(f1, f2, hsl.x);\nrgb.b = hue_to_rgb(f1, f2, hsl.x - (1.0 / 3.0));\n}\nreturn rgb;\n}\nvoid main(void)\n{\nvec4 front = texture2D(samplerFront, vTex);\nvec3 fronthsl = rgb_to_hsl(front.rgb / front.a);\nmediump vec2 tex = (vTex - srcStart) / (srcEnd - srcStart);\nvec4 back = texture2D(samplerBack, mix(destStart, destEnd, tex));\nvec3 backhsl = rgb_to_hsl(back.rgb / back.a);\nfronthsl = hsl_to_rgb(vec3(fronthsl.x, fronthsl.y, backhsl.z));\nfronthsl *= front.a;\ngl_FragColor = vec4(fronthsl.r, fronthsl.g, fronthsl.b, front.a) * back.a;\n}",
 	glslWebGL2: "",
@@ -1598,6 +1613,11 @@ self.C3_ExpressionFuncs = [
 			return () => C3.distanceTo(n0.ExpObject(), n1.ExpObject(), n2.ExpObject(), n3.ExpObject());
 		},
 		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => and("object_hit_", f0(1, 2));
+		},
+		() => -10,
+		p => {
 			const n0 = p._GetNode(0);
 			return () => n0.ExpInstVar();
 		},
@@ -1619,9 +1639,17 @@ self.C3_ExpressionFuncs = [
 		() => "Idle",
 		() => "Cast",
 		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => and("player_cast_", f0(1, 2));
+		},
+		p => {
 			const n0 = p._GetNode(0);
 			const f1 = p._GetNode(1).GetBoundMethod();
 			return () => ((n0.ExpObject() - 10) + (f1() * 10));
+		},
+		p => {
+			const n0 = p._GetNode(0);
+			return () => (n0.ExpObject() - 90);
 		},
 		p => {
 			const v0 = p._GetNode(0).GetVar();
@@ -1636,6 +1664,8 @@ self.C3_ExpressionFuncs = [
 			const f1 = p._GetNode(1).GetBoundMethod();
 			return () => (n0.ExpObject() + (f1() / 20));
 		},
+		() => "STEPS",
+		() => "steps",
 		p => {
 			const v0 = p._GetNode(0).GetVar();
 			return () => (v0.GetValue() * 1.5);
@@ -1648,35 +1678,7 @@ self.C3_ExpressionFuncs = [
 			const n0 = p._GetNode(0);
 			return () => (n0.ExpObject() - 270);
 		},
-		p => {
-			const n0 = p._GetNode(0);
-			return () => (n0.ExpObject() - 90);
-		},
 		() => 20,
-		() => 0.025,
-		p => {
-			const n0 = p._GetNode(0);
-			const f1 = p._GetNode(1).GetBoundMethod();
-			const f2 = p._GetNode(2).GetBoundMethod();
-			return () => add(add(n0.ExpObject(), f1(90, (-90))), f2((-15), 15));
-		},
-		() => 0.05,
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => (1 + f0(2));
-		},
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			const n1 = p._GetNode(1);
-			const n2 = p._GetNode(2);
-			return () => f0(n1.ExpInstVar(), (n2.ExpInstVar() * 2.5));
-		},
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			const n1 = p._GetNode(1);
-			const n2 = p._GetNode(2);
-			return () => f0(n1.ExpInstVar(), (n2.ExpInstVar() * 1.5));
-		},
 		p => {
 			const v0 = p._GetNode(0).GetVar();
 			const v1 = p._GetNode(1).GetVar();
@@ -1695,15 +1697,13 @@ self.C3_ExpressionFuncs = [
 			const f1 = p._GetNode(1).GetBoundMethod();
 			return () => (and(((((and((("Better luck next time!" + "\n") + "This run you've reached floor "), v0.GetValue()) + ".") + "\n") + "Your best result is: ") + "[color=#cf8f2b]"), f1()) + "[/color].");
 		},
-		() => 500,
-		() => "Bat",
 		p => {
 			const n0 = p._GetNode(0);
 			return () => (n0.ExpObject() - 3);
 		},
-		() => 48,
-		() => 32,
 		() => "SpawnerOrb",
+		() => 32,
+		() => 48,
 		p => {
 			const n0 = p._GetNode(0);
 			const n1 = p._GetNode(1);
@@ -1713,6 +1713,7 @@ self.C3_ExpressionFuncs = [
 		},
 		() => 300,
 		() => 0.5,
+		() => "COINS",
 		p => {
 			const v0 = p._GetNode(0).GetVar();
 			const n1 = p._GetNode(1);
@@ -1743,85 +1744,23 @@ self.C3_ExpressionFuncs = [
 			return () => f0(0.25, 0.5, 0.75, 1);
 		},
 		() => 600,
-		() => 64,
+		() => "enemy_projectile_1",
+		() => -20,
+		() => "ENEMY_PROJECTILE",
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => and("enemy_hit_", f0(3, 4));
+		},
+		() => "SetColor",
+		() => 0.05,
 		() => "GoblinShaman",
+		() => 64,
 		() => "idle",
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => f0(0, 0, 0, 0, 2, 2, 2, 4);
-		},
-		p => {
-			const v0 = p._GetNode(0).GetVar();
-			const f1 = p._GetNode(1).GetBoundMethod();
-			const f2 = p._GetNode(2).GetBoundMethod();
-			return () => ((v0.GetValue() + f1(40)) - f2(40));
-		},
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => (20 + f0(20));
-		},
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => f0(0, 0, 0, 0, 1, 1, 1, 2);
-		},
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => f0(0, 0, 0, 1);
-		},
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => f0(0, 0, 2, 4, 6);
-		},
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => f0(0, 0, 1, 2, 3);
-		},
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => f0(0, 0, 0, 0, 0, 0, 0, 0, 1);
-		},
 		() => 16,
 		() => -16,
 		() => "Active",
-		() => 96,
 		() => "GoblinFlag",
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			const v1 = p._GetNode(1).GetVar();
-			return () => (1 + f0((v1.GetValue() / 10)));
-		},
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			const v1 = p._GetNode(1).GetVar();
-			return () => (3 + f0((v1.GetValue() / 10)));
-		},
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => (15 + f0(15));
-		},
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => Math.floor(f0(4));
-		},
-		() => 70,
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			const v1 = p._GetNode(1).GetVar();
-			return () => (2 + f0((v1.GetValue() / 10)));
-		},
-		() => 140,
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			const v1 = p._GetNode(1).GetVar();
-			return () => (4 + f0((v1.GetValue() / 10)));
-		},
-		() => 120,
-		() => 240,
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			const v1 = p._GetNode(1).GetVar();
-			return () => (5 + f0((v1.GetValue() / 10)));
-		},
+		() => 96,
 		p => {
 			const v0 = p._GetNode(0).GetVar();
 			return () => and(v0.GetValue(), " - Floor of Simplicity");
@@ -1877,6 +1816,31 @@ self.C3_ExpressionFuncs = [
 			return () => (v0.GetValue() + 2);
 		},
 		() => 6,
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			return () => (v0.GetValue() * 0.5);
+		},
+		() => 190,
+		p => {
+			const n0 = p._GetNode(0);
+			return () => (n0.ExpObject() - 7);
+		},
+		p => {
+			const n0 = p._GetNode(0);
+			return () => (n0.ExpObject() + 56);
+		},
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			const v1 = p._GetNode(1).GetVar();
+			return () => (v0.GetValue() + v1.GetValue());
+		},
+		() => 8,
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			const v1 = p._GetNode(1).GetVar();
+			return () => ((v0.GetValue() + v1.GetValue()) + 2);
+		},
+		() => "Functions",
 		() => "UI",
 		() => 1520,
 		p => {
@@ -1888,9 +1852,40 @@ self.C3_ExpressionFuncs = [
 			const f1 = p._GetNode(1).GetBoundMethod();
 			return () => subtract(n0.ExpObject(f1()), 1);
 		},
+		() => 500,
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(0, 0, 0, 0, 2, 2, 2, 4);
+		},
 		p => {
 			const v0 = p._GetNode(0).GetVar();
-			return () => (v0.GetValue() * 0.5);
+			const f1 = p._GetNode(1).GetBoundMethod();
+			const f2 = p._GetNode(2).GetBoundMethod();
+			return () => ((v0.GetValue() + f1(40)) - f2(40));
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => (20 + f0(20));
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(0, 0, 0, 0, 1, 1, 1, 2);
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(0, 0, 0, 1);
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(0, 0, 2, 4, 6);
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(0, 0, 1, 2, 3);
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(0, 0, 0, 0, 0, 0, 0, 0, 1);
 		},
 		p => {
 			const v0 = p._GetNode(0).GetVar();
@@ -1898,15 +1893,7 @@ self.C3_ExpressionFuncs = [
 			return () => (560 + ((480 / v0.GetValue()) * f1()));
 		},
 		() => 820,
-		() => 190,
-		p => {
-			const n0 = p._GetNode(0);
-			return () => (n0.ExpObject() - 7);
-		},
-		p => {
-			const n0 = p._GetNode(0);
-			return () => (n0.ExpObject() + 56);
-		},
+		() => 12,
 		() => "Damage",
 		() => 7,
 		p => {
@@ -1927,16 +1914,44 @@ self.C3_ExpressionFuncs = [
 			return () => (v0.GetValue() * 5);
 		},
 		p => {
-			const v0 = p._GetNode(0).GetVar();
-			const v1 = p._GetNode(1).GetVar();
-			return () => (v0.GetValue() + v1.GetValue());
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => (15 + f0(15));
 		},
-		() => 8,
 		p => {
-			const v0 = p._GetNode(0).GetVar();
-			const v1 = p._GetNode(1).GetVar();
-			return () => ((v0.GetValue() + v1.GetValue()) + 2);
-		}
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => Math.floor(f0(4));
+		},
+		() => 120,
+		() => 180,
+		() => 240,
+		() => 0.015,
+		() => "Bat",
+		p => {
+			const n0 = p._GetNode(0);
+			const n1 = p._GetNode(1);
+			const n2 = p._GetNode(2);
+			const n3 = p._GetNode(3);
+			const f4 = p._GetNode(4).GetBoundMethod();
+			return () => ((C3.toDegrees(C3.angleTo(n0.ExpObject(), n1.ExpObject(), n2.ExpObject(), n3.ExpObject())) - 210) + f4(30));
+		},
+		() => 0.25,
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			const n1 = p._GetNode(1);
+			const n2 = p._GetNode(2);
+			return () => f0(n1.ExpInstVar(), (n2.ExpInstVar() * 3));
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			const n1 = p._GetNode(1);
+			const n2 = p._GetNode(2);
+			return () => f0(n1.ExpInstVar(), (n2.ExpInstVar() * 4));
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => and("enemy_hit_", f0(1, 2));
+		},
+		() => 440
 ];
 
 

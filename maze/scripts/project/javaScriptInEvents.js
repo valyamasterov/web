@@ -2,7 +2,7 @@
 
 const scriptsInEvents = {
 
-	async EventSheet1_Event8(runtime, localVars)
+	async Main_Event8(runtime, localVars)
 	{
 try {
     const TILE = 64;
