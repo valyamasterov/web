@@ -2,12 +2,12 @@
 
 const scriptsInEvents = {
 
-	async Main_Event8(runtime, localVars)
+	async Main_Event7(runtime, localVars)
 	{
 try {
     const TILE = 64;
-    const MIN_SIZE = 320;
-    const MAX_SIZE = 640;
+    const MIN_SIZE = 384;
+    const MAX_SIZE = 576;
     const NUM_ROOMS = 5;
 
     const roomType = runtime.objects.RoomCreator;
@@ -39,7 +39,7 @@ try {
         const maxTiles = Math.max(minTiles, Math.floor(MAX_SIZE / TILE));
         const wTiles = Math.floor(Math.random() * (maxTiles - minTiles + 1)) + minTiles;
         const hTiles = Math.floor(Math.random() * (maxTiles - minTiles + 1)) + minTiles;
-        return { wTiles, hTiles, width: wTiles * TILE, height: hTiles * TILE };
+        return { wTiles, hTiles };
     }
 
     function makeRoomAtTileRect(leftTile, topTile, wTiles, hTiles) {
@@ -60,21 +60,41 @@ try {
 
     const rooms = [];
 
-    const firstSize = randRoomSizeTiles();
+    // FIRST ROOM FIXED SIZE: 5×5 tiles (~320×320)
     const firstLeft = 0;
     const firstTop = 0;
+    const firstSize = { wTiles: 5, hTiles: 5 };
     rooms.push(makeRoomAtTileRect(firstLeft, firstTop, firstSize.wTiles, firstSize.hTiles));
 
     const firstRoom = rooms[0];
+    let firstRoomConnections = 0;  // <--- TRACK CONNECTIONS TO FIRST ROOM
+
+    // Place player at center of first room
     const px = (firstRoom.left + firstRoom.wTiles / 2) * TILE;
     const py = (firstRoom.top + firstRoom.hTiles / 2) * TILE;
     const p = playerType.getFirstInstance();
-    if (p) {
-        p.setPosition(px, py);
-    }
+    if (p) p.setPosition(px, py);
 
+    // --------------------------
+    // ROOM GENERATION LOOP
+    // --------------------------
     while (rooms.length < NUM_ROOMS + Math.floor(runtime.globalVars.CurrentFloor / 5)) {
-        const base = rooms[Math.floor(Math.random() * rooms.length)];
+
+        let base;
+        let attempts = 0;
+
+        // Select base room, but restrict first room to only 1 connection
+        while (true) {
+            base = rooms[Math.floor(Math.random() * rooms.length)];
+
+            if (base === firstRoom && firstRoomConnections >= 1) {
+                attempts++;
+                if (attempts > 20) break; // fallback safety
+                continue; // pick another base room
+            }
+            break;
+        }
+
         const size = randRoomSizeTiles();
         const dir = Math.floor(Math.random() * 4);
 
@@ -110,6 +130,11 @@ try {
         }
         if (conflict) continue;
 
+        // If this new room touches the first room, count the connection
+        if (base === firstRoom) {
+            firstRoomConnections++;
+        }
+
         rooms.push(makeRoomAtTileRect(newRect.left, newRect.top, size.wTiles, size.hTiles));
     }
 
@@ -119,6 +144,7 @@ try {
     function addShared(tx, ty) { sharedWallTiles.add(key(tx, ty)); }
     function addDoor(tx, ty) { doorTiles.add(key(tx, ty)); }
 
+    // Identify shared walls & door spots
     for (let i = 0; i < rooms.length; i++) {
         for (let j = 0; j < rooms.length; j++) {
             if (i === j) continue;
@@ -191,6 +217,7 @@ try {
         }
     }
 
+    // Build walls
     for (const r of rooms) {
         const yTop = r.top - 1;
         for (let x = r.left; x <= r.right; x++) {
@@ -214,12 +241,14 @@ try {
         }
     }
 
+    // Shared walls with no door become walls
     for (const s of sharedWallTiles) {
         if (doorTiles.has(s)) continue;
         const [txStr, tyStr] = s.split(",");
         createWallAtTile(parseInt(txStr, 10), parseInt(tyStr, 10));
     }
 
+    // Create door objects
     for (const d of doorTiles) {
         const [txStr, tyStr] = d.split(",");
         const tx = parseInt(txStr, 10);
@@ -230,25 +259,25 @@ try {
         const left = key(tx - 1, ty);
         const right = key(tx + 1, ty);
 
-    if (doorTiles.has(up) || doorTiles.has(down)) {
-        if (doorTiles.has(down)) {
-            const inst = doorLeftType.createInstance(layerIndex, tx * TILE + TILE/2, ty * TILE + TILE/2);
-            inst.angle = Math.PI / 2;
+        if (doorTiles.has(up) || doorTiles.has(down)) {
+            if (doorTiles.has(down)) {
+                const inst = doorLeftType.createInstance(layerIndex, tx * TILE + TILE/2, ty * TILE + TILE/2);
+                inst.angle = Math.PI / 2;
+            }
+            if (doorTiles.has(up)) {
+                const inst = doorRightType.createInstance(layerIndex, tx * TILE + TILE/2, ty * TILE + TILE/2);
+                inst.angle = Math.PI / 2;
+            }
+        } else {
+            if (doorTiles.has(right)) {
+                const inst = doorLeftType.createInstance(layerIndex, tx * TILE + TILE/2, ty * TILE + TILE/2);
+                inst.angle = 0;
+            }
+            if (doorTiles.has(left)) {
+                const inst = doorRightType.createInstance(layerIndex, tx * TILE + TILE/2, ty * TILE + TILE/2);
+                inst.angle = 0;
+            }
         }
-        if (doorTiles.has(up)) {
-            const inst = doorRightType.createInstance(layerIndex, tx * TILE + TILE/2, ty * TILE + TILE/2);
-            inst.angle = Math.PI / 2;
-        }
-    } else {
-        if (doorTiles.has(right)) {
-            const inst = doorLeftType.createInstance(layerIndex, tx * TILE + TILE/2, ty * TILE + TILE/2);
-            inst.angle = 0;
-        }
-        if (doorTiles.has(left)) {
-            const inst = doorRightType.createInstance(layerIndex, tx * TILE + TILE/2, ty * TILE + TILE/2);
-            inst.angle = 0;
-        }
-    }
 
         setOcc(tx, ty, "door");
     }

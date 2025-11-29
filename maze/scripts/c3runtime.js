@@ -1478,17 +1478,13 @@ self.C3_ExpressionFuncs = [
 		() => "Spells pierce through enemies",
 		() => "9.price",
 		() => 35,
-		() => 3,
-		() => 5,
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => f0(0, 0, 1, 2, 3, 4, 5);
-		},
-		() => 10,
+		() => 4,
+		() => 6,
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
 			return () => f0(0, 1, 2, 3, 4, 5);
 		},
+		() => 10,
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
 			return () => f0(1, 2, 3, 4, 5);
@@ -1504,12 +1500,17 @@ self.C3_ExpressionFuncs = [
 		() => "",
 		() => 2,
 		() => -100,
+		() => "Objects",
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(360);
+		},
+		() => 5,
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
 			return () => f0(3, 4);
 		},
-		() => "Objects",
-		() => 4,
+		() => 3,
 		p => {
 			const n0 = p._GetNode(0);
 			return () => (n0.ExpObject() + 32);
@@ -1539,10 +1540,6 @@ self.C3_ExpressionFuncs = [
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
 			return () => (5 + f0(5));
-		},
-		p => {
-			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => f0(360);
 		},
 		() => 9,
 		p => {
@@ -1592,6 +1589,10 @@ self.C3_ExpressionFuncs = [
 		p => {
 			const n0 = p._GetNode(0);
 			return () => (n0.ExpInstVar() - 1);
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(0, 0, 0, 1, 2, 3, 4);
 		},
 		() => "Disabled",
 		p => {
@@ -1735,15 +1736,16 @@ self.C3_ExpressionFuncs = [
 			const f1 = p._GetNode(1).GetBoundMethod();
 			return () => add(n0.ExpBehavior(), f1(90, (-90)));
 		},
-		() => 0.2,
+		() => 16,
+		() => -16,
 		() => 200,
 		() => "Walk",
 		() => 400,
+		() => 600,
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => f0(0.25, 0.5, 0.75, 1);
+			return () => f0(0, 0.2, 0.4, 0.6, 0.8, 1);
 		},
-		() => 600,
 		() => "enemy_projectile_1",
 		() => -20,
 		() => "ENEMY_PROJECTILE",
@@ -1756,8 +1758,6 @@ self.C3_ExpressionFuncs = [
 		() => "GoblinShaman",
 		() => 64,
 		() => "idle",
-		() => 16,
-		() => -16,
 		() => "Active",
 		() => "GoblinFlag",
 		() => 96,
@@ -1815,7 +1815,6 @@ self.C3_ExpressionFuncs = [
 			const v0 = p._GetNode(0).GetVar();
 			return () => (v0.GetValue() + 2);
 		},
-		() => 6,
 		p => {
 			const v0 = p._GetNode(0).GetVar();
 			return () => (v0.GetValue() * 0.5);
@@ -1865,6 +1864,10 @@ self.C3_ExpressionFuncs = [
 		},
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => Math.floor(f0(6));
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
 			return () => (20 + f0(20));
 		},
 		p => {
@@ -1895,6 +1898,7 @@ self.C3_ExpressionFuncs = [
 		() => 820,
 		() => 12,
 		() => "Damage",
+		() => 0.2,
 		() => 7,
 		p => {
 			const v0 = p._GetNode(0).GetVar();
@@ -1915,6 +1919,15 @@ self.C3_ExpressionFuncs = [
 		},
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => add(2, f0(0, 1, 2, 3));
+		},
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			const f1 = p._GetNode(1).GetBoundMethod();
+			return () => ((v0.GetValue() - 4) + f1(8));
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
 			return () => (15 + f0(15));
 		},
 		p => {
@@ -1925,6 +1938,7 @@ self.C3_ExpressionFuncs = [
 		() => 180,
 		() => 240,
 		() => 0.015,
+		() => 50,
 		() => "Bat",
 		p => {
 			const n0 = p._GetNode(0);
@@ -1951,6 +1965,7 @@ self.C3_ExpressionFuncs = [
 			const f0 = p._GetNode(0).GetBoundMethod();
 			return () => and("enemy_hit_", f0(1, 2));
 		},
+		() => 1.5,
 		() => 440
 ];
 
