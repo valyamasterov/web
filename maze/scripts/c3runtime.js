@@ -1508,7 +1508,7 @@ self.C3_ExpressionFuncs = [
 		() => 5,
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
-			return () => f0(3, 4);
+			return () => f0(3, 4, 6);
 		},
 		() => 3,
 		p => {
@@ -1591,6 +1591,20 @@ self.C3_ExpressionFuncs = [
 			const n0 = p._GetNode(0);
 			return () => (n0.ExpInstVar() - 1);
 		},
+		() => 0.5,
+		p => {
+			const n0 = p._GetNode(0);
+			const f1 = p._GetNode(1).GetBoundMethod();
+			return () => ((n0.ExpObject() + 64) - f1(128));
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => (10 + f0(30));
+		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(0, 1, 2);
+		},
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
 			return () => f0(0, 0, 0, 1, 2, 3, 4);
@@ -1668,9 +1682,18 @@ self.C3_ExpressionFuncs = [
 		},
 		() => "STEPS",
 		() => "steps",
+		() => 12,
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			return () => (v0.GetValue() * 0.75);
+		},
 		p => {
 			const v0 = p._GetNode(0).GetVar();
 			return () => (v0.GetValue() * 1.5);
+		},
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			return () => (v0.GetValue() * 0.5);
 		},
 		p => {
 			const n0 = p._GetNode(0);
@@ -1678,7 +1701,11 @@ self.C3_ExpressionFuncs = [
 		},
 		p => {
 			const n0 = p._GetNode(0);
-			return () => (n0.ExpObject() - 270);
+			return () => (n0.ExpObject() + 180);
+		},
+		p => {
+			const n0 = p._GetNode(0);
+			return () => (n0.ExpObject() + 90);
 		},
 		p => {
 			const v0 = p._GetNode(0).GetVar();
@@ -1716,7 +1743,6 @@ self.C3_ExpressionFuncs = [
 			return () => (C3.toDegrees(C3.angleTo(n0.ExpObject(), n1.ExpObject(), n2.ExpObject(), n3.ExpObject())) - 180);
 		},
 		() => 300,
-		() => 0.5,
 		() => "COINS",
 		p => {
 			const v0 = p._GetNode(0).GetVar();
@@ -1829,10 +1855,6 @@ self.C3_ExpressionFuncs = [
 			const v0 = p._GetNode(0).GetVar();
 			return () => (v0.GetValue() + 2);
 		},
-		p => {
-			const v0 = p._GetNode(0).GetVar();
-			return () => (v0.GetValue() * 0.5);
-		},
 		() => 190,
 		p => {
 			const n0 = p._GetNode(0);
@@ -1902,7 +1924,6 @@ self.C3_ExpressionFuncs = [
 			return () => (560 + ((480 / v0.GetValue()) * f1()));
 		},
 		() => 820,
-		() => 12,
 		() => "Damage",
 		() => 0.2,
 		() => 7,
@@ -1931,6 +1952,7 @@ self.C3_ExpressionFuncs = [
 		() => 120,
 		() => 180,
 		() => 240,
+		() => 250,
 		() => 0.015,
 		() => 50,
 		p => {
@@ -1943,6 +1965,45 @@ self.C3_ExpressionFuncs = [
 			const f1 = p._GetNode(1).GetBoundMethod();
 			return () => ((n0.ExpObject() + 16) - f1(32));
 		},
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(1, 2, 3);
+		},
+		() => "casting",
+		() => "walking",
+		() => 32,
+		() => -32,
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			return () => f0(0.25, 0.5, 0.75, 1, 1.5);
+		},
+		() => 1.25,
+		p => {
+			const n0 = p._GetNode(0);
+			const n1 = p._GetNode(1);
+			const n2 = p._GetNode(2);
+			const n3 = p._GetNode(3);
+			const f4 = p._GetNode(4).GetBoundMethod();
+			return () => ((C3.toDegrees(C3.angleTo(n0.ExpObject(), n1.ExpObject(), n2.ExpObject(), n3.ExpObject())) - 15) + (15 * f4()));
+		},
+		() => "Web",
+		p => {
+			const n0 = p._GetNode(0);
+			return () => (n0.ExpObject() + 0.5);
+		},
+		() => -2,
+		() => "Poison",
+		p => {
+			const n0 = p._GetNode(0);
+			const f1 = p._GetNode(1).GetBoundMethod();
+			return () => ((n0.ExpObject() + 32) - f1(64));
+		},
+		() => 0.25,
+		() => "Spider",
+		p => {
+			const n0 = p._GetNode(0);
+			return () => (25 + (n0.ExpInstVar() * 5));
+		},
 		() => "Bat",
 		p => {
 			const n0 = p._GetNode(0);
@@ -1952,7 +2013,6 @@ self.C3_ExpressionFuncs = [
 			const f4 = p._GetNode(4).GetBoundMethod();
 			return () => ((C3.toDegrees(C3.angleTo(n0.ExpObject(), n1.ExpObject(), n2.ExpObject(), n3.ExpObject())) - 210) + f4(30));
 		},
-		() => 0.25,
 		p => {
 			const f0 = p._GetNode(0).GetBoundMethod();
 			const n1 = p._GetNode(1);
