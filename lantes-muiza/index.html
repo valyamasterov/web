@@ -27,8 +27,13 @@
                 window.seasonColors[savedSeason]
             );
         }
-        // Store current season globally for initial load
+
         window.currentSeasonFolder = seasonFolders[savedSeason] || "winter";
+        window.heroPosterPath = `assets/${window.currentSeasonFolder}/hero-video-poster-${window.currentSeasonFolder}.webp`;
+    </script>
+    <!-- Preload hero poster -->
+    <script>
+        document.write('<link rel="preload" href="' + window.heroPosterPath + '" as="image" fetchpriority="high" />');
     </script>
     <!-- Preload critical fonts -->
     <link rel="preload" href="assets/fonts/Tungsten/Tungsten-Book.otf" as="font" type="font/otf"
@@ -37,8 +42,8 @@
         crossorigin="anonymous" />
     <link rel="preload" href="assets/fonts/Tungsten/Tungsten-Bold.otf" as="font" type="font/otf"
         crossorigin="anonymous" />
-  <script type="module" crossorigin src="./assets/app-CFMO4kQv.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/app-aZOtwv1c.css">
+  <script type="module" crossorigin src="./assets/app-BmFFr3SL.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/app-5aIy78Lw.css">
 </head>
 
 <body>
@@ -50,36 +55,86 @@
         <!-- Mobile Menu Button -->
         <button id="mobile-menu-button" class="lg:hidden absolute top-[0.5rem] right-[0.5rem] z-[200] cursor-pointer"
             aria-label="Open menu">
-            <img src="assets/hamburger.svg" alt="Mobile menu" height="46" width="46" />
+            <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M38 18H34.368L28.737 16H16.271L11.579 18H8" stroke="#F2F1E2" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M38 24H34.368L28.737 22H16.271L11.579 24H8" stroke="#F2F1E2" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M38 30H34.368L28.737 28H16.271L11.579 30H8" stroke="#F2F1E2" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
         </button>
-
-        <div id="season-switch" class="hidden lg:block lg:fixed top-0 right-0 cursor-pointer nav-links-fade">
-            <img src="assets/season-switch-icon.svg" alt="Season Switch Icon" class="w-[2.25rem] h-[2.25rem]" />
-        </div>
 
         <!-- Season Menu -->
         <div id="season-menu"
-            class="fixed right-0 top-[6.417rem] bg-bg shadow-lg transition-transform duration-300 translate-x-full">
+            class="fixed right-0 top-1/2 -translate-y-1/2 lg:top-[6.417rem] lg:translate-y-0 bg-bg shadow-lg transition-transform duration-300 translate-x-full z-[9999] lg:z-[110]">
             <div class="flex flex-col gap-2 py-4 pl-4 pr-8">
                 <button
-                    class="season-option font-book text-green uppercase text-left text-2xs flex items-center cursor-pointer">
-                    <div class="w-[0.75rem] h-[0.75rem] bg-blue inline-block mr-2"></div>
+                    class="season-option font-book text-green uppercase text-left text-2xs flex items-center cursor-pointer"
+                    data-season="Ziema">
+                    <div
+                        class="w-[0.75rem] h-[0.75rem] bg-blue mr-2 relative flex items-center justify-center flex-shrink-0">
+                        <svg class="season-checkmark hidden absolute" width="0.375rem" height="0.291rem"
+                            viewBox="0 0 9 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 7.05L0 4.05L1.05 3L3 4.95L7.95 0L9 1.05L3 7.05Z" fill="#F2F1E2" />
+                        </svg>
+                    </div>
                     Ziema
                 </button>
                 <button
-                    class="season-option font-book text-green uppercase text-left text-2xs flex items-center cursor-pointer">
-                    <div class="w-[0.75rem] h-[0.75rem] bg-yellow inline-block mr-2"></div>
+                    class="season-option font-book text-green uppercase text-left text-2xs flex items-center cursor-pointer"
+                    data-season="Pavasaris">
+                    <div
+                        class="w-[0.75rem] h-[0.75rem] bg-yellow mr-2 relative flex items-center justify-center flex-shrink-0">
+                        <svg class="season-checkmark hidden absolute" width="0.375rem" height="0.291rem"
+                            viewBox="0 0 9 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 7.05L0 4.05L1.05 3L3 4.95L7.95 0L9 1.05L3 7.05Z" fill="#F2F1E2" />
+                        </svg>
+                    </div>
                     Pavasaris
                 </button>
                 <button
-                    class="season-option font-book text-green uppercase text-left text-2xs flex items-center cursor-pointer">
-                    <div class="w-[0.75rem] h-[0.75rem] bg-green inline-block mr-2"></div>
+                    class="season-option font-book text-green uppercase text-left text-2xs flex items-center cursor-pointer"
+                    data-season="Vasara">
+                    <div
+                        class="w-[0.75rem] h-[0.75rem] bg-green mr-2 relative flex items-center justify-center flex-shrink-0">
+                        <svg class="season-checkmark hidden absolute" width="0.375rem" height="0.291rem"
+                            viewBox="0 0 9 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 7.05L0 4.05L1.05 3L3 4.95L7.95 0L9 1.05L3 7.05Z" fill="#F2F1E2" />
+                        </svg>
+                    </div>
                     Vasara
                 </button>
                 <button
-                    class="season-option font-book text-green uppercase text-left text-2xs flex items-center cursor-pointer">
-                    <div class="w-[0.75rem] h-[0.75rem] bg-red inline-block mr-2"></div>
+                    class="season-option font-book text-green uppercase text-left text-2xs flex items-center cursor-pointer"
+                    data-season="Rudens">
+                    <div
+                        class="w-[0.75rem] h-[0.75rem] bg-red mr-2 relative flex items-center justify-center flex-shrink-0">
+                        <svg class="season-checkmark hidden absolute" width="0.375rem" height="0.291rem"
+                            viewBox="0 0 9 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 7.05L0 4.05L1.05 3L3 4.95L7.95 0L9 1.05L3 7.05Z" fill="#F2F1E2" />
+                        </svg>
+                    </div>
                     Rudens
+                </button>
+            </div>
+        </div>
+
+        <!-- Languages Menu -->
+        <div id="languages-menu"
+            class="fixed right-0 top-1/2 -translate-y-1/2 lg:top-[6.417rem] lg:translate-y-0 bg-bg shadow-lg transition-transform duration-300 translate-x-full z-[9999] lg:z-[110]">
+            <div class="flex flex-col gap-2 py-4 pl-4 pr-8">
+                <button
+                    class="language-option font-book text-green uppercase text-left text-2xs flex items-center cursor-pointer"
+                    data-language="lv">
+                    <input type="checkbox" class="language-checkbox mr-2 cursor-pointer" />
+                    Latviski
+                </button>
+                <button
+                    class="language-option font-book text-green uppercase text-left text-2xs flex items-center cursor-pointer"
+                    data-language="en">
+                    <input type="checkbox" class="language-checkbox mr-2 cursor-pointer" />
+                    English
                 </button>
             </div>
         </div>
@@ -169,7 +224,17 @@
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M13.293 7L7 13.293L0.707031 7L7 0.707031L13.293 7Z"
                     stroke="var(--accent-color)" stroke-opacity="0.4" />
             </svg>
-            <a href="#" class="nav-link text-sm text-bg font-book uppercase tracking-wider -mb-[0.2rem]">Languages</a>
+            <button id="languages-button"
+                class="nav-link text-sm text-bg font-book uppercase tracking-wider -mb-[0.2rem] cursor-pointer">Languages</button>
+            <svg width="0.6rem" height="0.6rem" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.293 7L7 13.293L0.707031 7L7 0.707031L13.293 7Z"
+                    stroke="var(--accent-color)" stroke-opacity="0.4" />
+            </svg>
+            <button id="season-switch-text"
+                class="nav-link text-sm text-bg font-book uppercase tracking-wider -mb-[0.2rem] cursor-pointer">Gadalaiki</button>
+            <button id="season-switch" class="cursor-pointer">
+                <img src="assets/season-switch-icon.svg" alt="Season Switch Icon" class="w-[1rem] h-[1rem]" />
+            </button>
         </div>
     </nav>
 
@@ -184,8 +249,11 @@
         <div id="mobile-menu-overlay" class="absolute inset-0 bg-black z-0"></div>
 
         <!-- Background Image -->
-        <img data-media-position="mobile_menu_bg" class="absolute inset-0 w-full h-full object-cover z-[5] min-h-screen"
+        <img data-media-position="hero_poster" class="absolute inset-0 w-full h-full object-cover z-[5] min-h-screen"
             alt="" />
+
+        <!-- Dark Overlay -->
+        <div class="absolute inset-0 bg-black/60 z-[10]"></div>
 
         <!-- Close Button -->
         <button id="mobile-menu-close" class="absolute top-[0.5rem] right-[0.5rem] cursor-pointer z-30"
@@ -194,7 +262,7 @@
         </button>
 
         <!-- Menu Content -->
-        <div class="mobile-menu-content flex flex-col items-center gap-[0.8rem] relative z-20 justify-center h-screen">
+        <div class="mobile-menu-content flex flex-col items-center gap-[0.4rem] relative z-20 justify-center h-screen">
             <a href="index.html">
                 <img src="assets/Logo.svg" alt="Logo" height="48.29" width="66.71" class="mobile-menu-logo mb-[2rem]" />
             </a>
@@ -205,43 +273,124 @@
             <svg width="0.7rem" height="0.7rem" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="mobile-menu-divider">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M13.293 7L7 13.293L0.707031 7L7 0.707031L13.293 7Z"
-                    stroke="white" stroke-opacity="0.4" />
+                    stroke="var(--accent-color)" stroke-opacity="1" />
             </svg>
             <a href="history.html"
                 class="mobile-menu-link !text-[1.2rem] lg:!text-xl text-bg font-book uppercase tracking-wider">Vēsture</a>
             <svg width="0.7rem" height="0.7rem" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="mobile-menu-divider">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M13.293 7L7 13.293L0.707031 7L7 0.707031L13.293 7Z"
-                    stroke="white" stroke-opacity="0.4" />
+                    stroke="var(--accent-color)" stroke-opacity="1" />
             </svg>
             <a href="guesthouses.html"
                 class="mobile-menu-link !text-[1.2rem] lg:!text-xl text-bg font-book uppercase tracking-wider">Viesošanās</a>
             <svg width="0.7rem" height="0.7rem" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="mobile-menu-divider">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M13.293 7L7 13.293L0.707031 7L7 0.707031L13.293 7Z"
-                    stroke="white" stroke-opacity="0.4" />
+                    stroke="var(--accent-color)" stroke-opacity="1" />
             </svg>
             <a href="events.html"
                 class="mobile-menu-link !text-[1.2rem] lg:!text-xl text-bg font-book uppercase tracking-wider">Notikumi</a>
             <svg width="0.7rem" height="0.7rem" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="mobile-menu-divider">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M13.293 7L7 13.293L0.707031 7L7 0.707031L13.293 7Z"
-                    stroke="white" stroke-opacity="0.4" />
+                    stroke="var(--accent-color)" stroke-opacity="1" />
             </svg>
             <a href="residences.html"
                 class="mobile-menu-link !text-[1.2rem] lg:!text-xl text-bg font-book uppercase tracking-wider">Rezidences</a>
             <svg width="0.7rem" height="0.7rem" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="mobile-menu-divider">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M13.293 7L7 13.293L0.707031 7L7 0.707031L13.293 7Z"
-                    stroke="white" stroke-opacity="0.4" />
+                    stroke="var(--accent-color)" stroke-opacity="1" />
             </svg>
             <a href="contact.html"
                 class="!text-[1.2rem] lg:!text-xl text-bg font-book uppercase tracking-wider">Kontakti</a>
             <svg width="0.7rem" height="0.7rem" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M13.293 7L7 13.293L0.707031 7L7 0.707031L13.293 7Z"
-                    stroke="white" stroke-opacity="0.4" />
+                    stroke="var(--accent-color)" stroke-opacity="1" />
             </svg>
-            <a href="#" class="!text-[1.2rem] lg:!text-xl text-bg font-book uppercase tracking-wider">Languages</a>
+            <button id="mobile-languages-button"
+                class="!text-[1.2rem] lg:!text-xl text-bg font-book uppercase tracking-wider cursor-pointer">Languages</button>
+            <svg width="0.7rem" height="0.7rem" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.293 7L7 13.293L0.707031 7L7 0.707031L13.293 7Z"
+                    stroke="var(--accent-color)" stroke-opacity="1" />
+            </svg>
+            <button id="mobile-season-button"
+                class="!text-[1.2rem] lg:!text-xl text-bg font-book uppercase tracking-wider cursor-pointer">Gadalaiki</button>
+        </div>
+
+        <!-- Season Menu (Mobile) -->
+        <div id="season-menu-mobile"
+            class="lg:hidden absolute right-0 top-1/2 -translate-y-1/2 bg-bg shadow-lg transition-transform duration-300 translate-x-full z-30">
+            <div class="flex flex-col gap-2 py-4 pl-4 pr-8">
+                <button
+                    class="season-option font-book text-green uppercase text-left text-2xs flex items-center cursor-pointer"
+                    data-season="Ziema">
+                    <div
+                        class="w-[0.75rem] h-[0.75rem] bg-blue mr-2 relative flex items-center justify-center flex-shrink-0">
+                        <svg class="season-checkmark hidden absolute" width="0.375rem" height="0.291rem"
+                            viewBox="0 0 9 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 7.05L0 4.05L1.05 3L3 4.95L7.95 0L9 1.05L3 7.05Z" fill="#F2F1E2" />
+                        </svg>
+                    </div>
+                    Ziema
+                </button>
+                <button
+                    class="season-option font-book text-green uppercase text-left text-2xs flex items-center cursor-pointer"
+                    data-season="Pavasaris">
+                    <div
+                        class="w-[0.75rem] h-[0.75rem] bg-yellow mr-2 relative flex items-center justify-center flex-shrink-0">
+                        <svg class="season-checkmark hidden absolute" width="0.375rem" height="0.291rem"
+                            viewBox="0 0 9 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 7.05L0 4.05L1.05 3L3 4.95L7.95 0L9 1.05L3 7.05Z" fill="#F2F1E2" />
+                        </svg>
+                    </div>
+                    Pavasaris
+                </button>
+                <button
+                    class="season-option font-book text-green uppercase text-left text-2xs flex items-center cursor-pointer"
+                    data-season="Vasara">
+                    <div
+                        class="w-[0.75rem] h-[0.75rem] bg-green mr-2 relative flex items-center justify-center flex-shrink-0">
+                        <svg class="season-checkmark hidden absolute" width="0.375rem" height="0.291rem"
+                            viewBox="0 0 9 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 7.05L0 4.05L1.05 3L3 4.95L7.95 0L9 1.05L3 7.05Z" fill="#F2F1E2" />
+                        </svg>
+                    </div>
+                    Vasara
+                </button>
+                <button
+                    class="season-option font-book text-green uppercase text-left text-2xs flex items-center cursor-pointer"
+                    data-season="Rudens">
+                    <div
+                        class="w-[0.75rem] h-[0.75rem] bg-red mr-2 relative flex items-center justify-center flex-shrink-0">
+                        <svg class="season-checkmark hidden absolute" width="0.375rem" height="0.291rem"
+                            viewBox="0 0 9 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 7.05L0 4.05L1.05 3L3 4.95L7.95 0L9 1.05L3 7.05Z" fill="#F2F1E2" />
+                        </svg>
+                    </div>
+                    Rudens
+                </button>
+            </div>
+        </div>
+
+        <!-- Languages Menu (Mobile) -->
+        <div id="languages-menu-mobile"
+            class="lg:hidden absolute right-0 top-1/2 -translate-y-1/2 bg-bg shadow-lg transition-transform duration-300 translate-x-full z-30">
+            <div class="flex flex-col gap-2 py-4 pl-4 pr-8">
+                <button
+                    class="language-option font-book text-green uppercase text-left text-2xs flex items-center cursor-pointer"
+                    data-language="lv">
+                    <input type="checkbox" class="language-checkbox mr-2 cursor-pointer" />
+                    Latviski
+                </button>
+                <button
+                    class="language-option font-book text-green uppercase text-left text-2xs flex items-center cursor-pointer"
+                    data-language="en">
+                    <input type="checkbox" class="language-checkbox mr-2 cursor-pointer" />
+                    English
+                </button>
+            </div>
         </div>
     </div>
 
@@ -249,8 +398,11 @@
     <section
         class="h-screen flex flex-col pt-[2.5rem] lg:pt-0 lg:mt-[-6.417rem] relative overflow-hidden items-center justify-center text-center text-white">
         <div class="bg-black absolute inset-0 w-full h-full object-cover -z-10"></div>
-        <video data-media-position="hero_video" autoplay loop muted playsinline
+        <video id="hero-video" data-media-position="hero_video" loop muted playsinline
             class="bg-black absolute inset-0 w-full h-full object-cover -z-10"></video>
+        <script>
+            document.getElementById('hero-video').poster = window.heroPosterPath;
+        </script>
         <div class="absolute inset-0 bg-black/75 -z-[5]"></div>
 
         <div
@@ -265,9 +417,6 @@
                     </h2>
                 </div>
                 <img data-media-position="hero_spot_1" class="w-full h-full object-cover" />
-                <a href="about.html"
-                    class="hidden lg:block nav-links-fade absolute bottom-[2rem] left-[2rem] border border-white/40 text-bg px-[1.4rem] py-[0.5rem] uppercase font-book text-md hover:border-bg hover:scale-105 transition-all duration-300 ease-in-out"
-                    style="letter-spacing: 0.11em !important">par muižu</a>
             </div>
 
             <h2
@@ -277,16 +426,16 @@
 
             <div
                 class="w-full flex flex-row lg:flex-col gap-[0.5rem] mt-[1rem] lg:mt-0 pb-[2rem] lg:pb-0 lg:w-auto lg:flex-shrink-0">
-                <div
-                    class="relative w-full aspect-[152.5/99] lg:aspect-auto lg:w-[16.125rem] lg:h-[calc(30vh-0.25rem)]">
+                <a href="history.html"
+                    class="relative w-full aspect-[152.5/99] lg:aspect-auto lg:w-[16.125rem] lg:h-[calc(30vh-0.25rem)] default-card">
                     <img data-media-position="hero_spot_3" class="w-full h-full object-cover" />
                     <p
                         class="nav-links-fade font-book absolute bottom-[0.4rem] left-[0.4rem] lg:bottom-[1.25rem] lg:left-[1.25rem] uppercase text-[0.9rem] lg:text-lg text-bg bg-accent px-[0.417rem] pt-[0.25rem] pb-[0.125rem] leading-none z-10">
                         leģendas
                     </p>
-                </div>
+                </a>
                 <a href="residences.html"
-                    class="relative w-full aspect-[152.5/99] lg:aspect-auto lg:w-[16.125rem] lg:h-[calc(30vh-0.25rem)]">
+                    class="relative w-full aspect-[152.5/99] lg:aspect-auto lg:w-[16.125rem] lg:h-[calc(30vh-0.25rem)] default-card">
                     <img data-media-position="hero_spot_3" class="w-full h-full object-cover" />
                     <p
                         class="nav-links-fade font-book absolute bottom-[0.4rem] left-[0.4rem] lg:bottom-[1.25rem] lg:left-[1.25rem] uppercase text-[0.9rem] lg:text-lg text-bg bg-accent px-[0.417rem] pt-[0.25rem] pb-[0.125rem] leading-none z-10">
@@ -438,7 +587,7 @@
 
             <div
                 class="flex grid grid-cols-1 lg:grid-cols-2 justify-between gap-[1rem] lg:gap-[2.33rem] w-full my-[1.2rem] lg:my-[2rem]">
-                <a class="relative" href="">
+                <a class="relative default-card" href="event.html">
                     <img src="assets/news-photo-1.webp"
                         class="w-full h-full aspect-[345/242] lg:aspect-[590/414] object-cover object-top" />
                     <div class="absolute bottom-[1rem] left-[1rem] flex flex-col items-start font-book tracking-wide">
@@ -459,7 +608,7 @@
                     </div>
                 </a>
 
-                <a class="relative" href="">
+                <a class="relative default-card" href="event.html">
                     <img src="assets/news-photo-2.webp"
                         class="w-full h-full aspect-[345/242] lg:aspect-[590/414] object-cover object-top" />
                     <div class="absolute bottom-[1rem] left-[1rem] flex flex-col items-start font-book tracking-wide">
