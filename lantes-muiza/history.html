@@ -41,8 +41,8 @@
         crossorigin="anonymous" />
     <link rel="preload" href="assets/fonts/Tungsten/Tungsten-Bold.otf" as="font" type="font/otf"
         crossorigin="anonymous" />
-  <script type="module" crossorigin src="./assets/app-D7Ti06bq.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/app-5aIy78Lw.css">
+  <script type="module" crossorigin src="./assets/app-BrCo2wCE.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/app-DsvdQUEO.css">
 </head>
 
 <body>
@@ -233,6 +233,12 @@
         </div>
     </nav>
 
+    <button id="sticky-season-button"
+        class="hidden lg:block fixed top-0 right-0 z-[110] cursor-pointer transition-transform duration-300 ease-in-out translate-y-[-100%]"
+        aria-label="Open season menu">
+        <img src="assets/season-switch-icon.svg" alt="Season Switch Icon" class="w-[2.25rem] h-[2.25rem]" />
+    </button>
+
     <!-- Mobile Menu Modal -->
     <div id="mobile-menu-modal"
         class="mobile-menu-modal fixed top-0 left-0 right-0 bottom-0 z-[150] hidden flex-col items-center justify-start h-screen w-screen"
@@ -388,7 +394,7 @@
     <section class="relative lg:mt-[-6.417rem] bg-accent min-h-screen overflow-hidden">
         <div
             class="absolute top-0 left-0 w-full h-full opacity-80 mix-blend-multiply z-0 overflow-hidden pointer-events-none">
-            <img data-media-position="default_bg_2" class="w-full h-full object-cover object-top"
+            <img data-media-position="default_bg_2" class="parallax-bg"
                 style="object-fit: cover; object-position: top; display: block; min-height: 100%;" />
         </div>
 

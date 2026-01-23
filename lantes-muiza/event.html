@@ -41,8 +41,8 @@
         crossorigin="anonymous" />
     <link rel="preload" href="assets/fonts/Tungsten/Tungsten-Bold.otf" as="font" type="font/otf"
         crossorigin="anonymous" />
-  <script type="module" crossorigin src="./assets/app-D7Ti06bq.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/app-5aIy78Lw.css">
+  <script type="module" crossorigin src="./assets/app-BrCo2wCE.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/app-DsvdQUEO.css">
 </head>
 
 <body>
@@ -232,6 +232,12 @@
             </button>
         </div>
     </nav>
+
+    <button id="sticky-season-button"
+        class="hidden lg:block fixed top-0 right-0 z-[110] cursor-pointer transition-transform duration-300 ease-in-out translate-y-[-100%]"
+        aria-label="Open season menu">
+        <img src="assets/season-switch-icon.svg" alt="Season Switch Icon" class="w-[2.25rem] h-[2.25rem]" />
+    </button>
 
     <!-- Mobile Menu Modal -->
     <div id="mobile-menu-modal"
@@ -435,14 +441,16 @@
                 </div>
 
                 <div
-                    class="hidden lg:block absolute top-[62%] left-[2rem] transform -translate-y-1/2 flex flex-col items-start justify-center">
-                    <h1
-                        class="-ml-[6rem] text-4xl text-bg !font-light leading-[1.2] text-center uppercase guesthouse-title-animate hero-text">
-                        haralds sīmanis
-                    </h1>
-                    <p class="lg:-mt-[3rem] nav-links-fade text-bg text-lg hero-date-text">
-                        12. maijā plkst. 19.00
-                    </p>
+                    class="hidden lg:block absolute top-[50%] left-[2rem] transform -translate-y-1/2 flex flex-col items-start justify-center">
+                    <div class="flex flex-col hero-date-text">
+                        <h1
+                            class="-ml-[6rem] text-4xl text-bg !font-light leading-[1.2] text-center uppercase guesthouse-title-animate">
+                            haralds sīmanis
+                        </h1>
+                        <p class="nav-links-fade text-bg text-light -mt-[1vw]">
+                            12. maijā plkst. 19.00
+                        </p>
+                    </div>
                 </div>
             </div>
             <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 nav-links-fade">
@@ -453,8 +461,8 @@
     </section>
 
     <section class="relative z-0 overflow-hidden pt-[2rem]">
-        <div class="absolute inset-0 w-full h-full object-cover opacity-50 -z-10">
-            <img data-media-position="default_bg_1" class="h-full w-full object-cover" />
+        <div class="absolute inset-0 w-full h-full opacity-50 -z-[20] overflow-hidden">
+            <img data-media-position="default_bg_1" class="parallax-bg" />
         </div>
 
         <div class="w-full px-[var(--default-section-padding)] min-h-[21.125rem] pb-[3rem]">

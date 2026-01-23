@@ -41,8 +41,8 @@
         crossorigin="anonymous" />
     <link rel="preload" href="assets/fonts/Tungsten/Tungsten-Bold.otf" as="font" type="font/otf"
         crossorigin="anonymous" />
-  <script type="module" crossorigin src="./assets/app-D7Ti06bq.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/app-5aIy78Lw.css">
+  <script type="module" crossorigin src="./assets/app-BrCo2wCE.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/app-DsvdQUEO.css">
 </head>
 
 <body>
@@ -218,6 +218,12 @@
         </div>
     </nav>
 
+    <button id="sticky-season-button"
+        class="hidden lg:block fixed top-0 right-0 z-[110] cursor-pointer transition-transform duration-300 ease-in-out translate-y-[-100%]"
+        aria-label="Open season menu">
+        <img src="assets/season-switch-icon.svg" alt="Season Switch Icon" class="w-[2.25rem] h-[2.25rem]" />
+    </button>
+
     <!-- Mobile Menu Modal -->
     <div id="mobile-menu-modal"
         class="mobile-menu-modal fixed top-0 left-0 right-0 bottom-0 z-[150] hidden flex-col items-center justify-start h-screen w-screen"
@@ -371,8 +377,8 @@
     </div>
 
     <section class="relative lg:mt-[-6.417rem]">
-        <div class="absolute inset-0 w-full h-full object-cover opacity-50 -z-10">
-            <img src="assets/home-bg-2.jpg" class="h-full w-full object-cover" />
+        <div class="absolute inset-0 w-full h-full opacity-50 -z-[20] overflow-hidden">
+            <img src="assets/home-bg-2.jpg" class="parallax-bg" />
         </div>
         <div
             class="lg:px-[var(--default-section-padding)] pt-[calc(var(--default-section-padding)*10.1)] pb-[calc(var(--default-section-padding)*1)] lg:pt-[calc(var(--default-section-padding)*2)] lg:pb-[calc(var(--default-section-padding)*0.5)] flex flex-col items-center justify-center">
