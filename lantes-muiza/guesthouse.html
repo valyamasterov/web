@@ -41,8 +41,8 @@
         crossorigin="anonymous" />
     <link rel="preload" href="assets/fonts/Tungsten/Tungsten-Bold.otf" as="font" type="font/otf"
         crossorigin="anonymous" />
-  <script type="module" crossorigin src="./assets/app-CDnH8M-p.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/app-Ct8BA3TV.css">
+  <script type="module" crossorigin src="./assets/app-C16PCURp.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/app-DKcVggQX.css">
 </head>
 
 <body>
@@ -397,10 +397,10 @@
             <img data-media-position="guesthouse_hero_bg" class="w-full object-cover opacity-20 heroBgFadeIn"
                 id="guesthouse-hero-image" />
         </div>
-        <div class="h-screen lg:pt-[5vh] flex items-start lg:items-center justify-center">
+        <div class="h-[100svh] lg:h-screen lg:pt-[5vh] flex items-start lg:items-center justify-center">
             <div class="relative">
                 <img data-media-position="guesthouse_hero"
-                    class="px-[1.66rem] pt-[10vh] lg:pt-0 lg:px-0 w-full min-h-[60vh] max-h-[60vh] lg:max-w-[41.66rem] lg:aspect-[1000/600] object-cover" />
+                    class="px-[1.66rem] pt-[25vh] lg:pt-0 lg:px-0 w-full min-h-[60vh] max-h-[60vh] lg:max-w-[41.66rem] lg:aspect-[1000/600] object-cover" />
                 <div id="guesthouse-hero-overlay" class="hidden lg:block absolute inset-0 pointer-events-none" style="
                             background: radial-gradient(
                                 circle,
@@ -1815,13 +1815,13 @@
     </section>
 
     <!-- Reservation Modal -->
-    <div id="reservation-modal" class="fixed inset-0 z-[200] hidden items-center justify-center">
+    <div id="reservation-modal" class="fixed inset-0 z-[200] hidden items-center justify-center h-[100svh] lg:h-full">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" id="reservation-modal-backdrop"></div>
 
         <div
             class="relative z-10 w-full h-full flex items-start lg:items-center justify-center p-0 overflow-y-auto overflow-x-hidden">
             <div id="reservation-modal-content"
-                class="lg:min-w-[50rem] lg:max-w-[50rem] w-full min-h-[100vh] lg:min-h-0 h-auto lg:max-h-[29rem] default-bg-1 relative flex flex-col px-[1rem] lg:px-[2.33rem] py-[1.5rem] lg:py-[1rem] my-0 lg:my-auto bg-bg">
+                class="lg:min-w-[50rem] lg:max-w-[50rem] w-full min-h-[100svh] lg:min-h-0 h-auto lg:max-h-[29rem] default-bg-1 relative flex flex-col px-[1rem] lg:px-[2.33rem] py-[1.5rem] lg:py-[1rem] my-0 lg:my-auto bg-bg">
                 <button id="reservation-modal-close"
                     class="modal-close-btn absolute top-[1.5rem] right-[0.5rem] lg:top-[1rem] lg:right-[2rem] cursor-pointer z-30 p-2 flex items-center gap-[0.5rem]"
                     aria-label="Close reservation">
@@ -1956,13 +1956,14 @@
     </div>
 
     <!-- Terms Modal -->
-    <div id="terms-modal" class="fixed inset-0 z-[300] hidden flex items-center justify-center overflow-hidden">
+    <div id="terms-modal"
+        class="fixed inset-0 z-[300] hidden flex items-center justify-center overflow-hidden h-[100svh] lg:h-full">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" id="terms-modal-backdrop"></div>
 
         <div
             class="relative z-10 w-full h-full lg:max-h-[80vh] flex items-start lg:items-center justify-center p-0 overflow-y-auto overflow-x-hidden my-0 lg:my-auto">
             <div id="terms-modal-content"
-                class="lg:min-w-[50rem] lg:max-w-[50rem] w-full min-h-[100vh] lg:min-h-[80vh] h-full default-bg-1 relative flex flex-col my-0 lg:my-auto bg-bg">
+                class="lg:min-w-[50rem] lg:max-w-[50rem] w-full min-h-[100svh] lg:min-h-[80vh] h-full default-bg-1 relative flex flex-col my-0 lg:my-auto bg-bg">
                 <img data-media-position="default_bg_1" class="terms-modal-bg opacity-50" />
 
                 <button id="terms-modal-close"
@@ -1975,7 +1976,7 @@
                 </button>
 
                 <div
-                    class="relative z-10 overflow-y-auto overflow-x-hidden px-[1rem] lg:px-[2.33rem] py-[1.5rem] lg:py-[1rem] max-h-[calc(100vh-3rem)]">
+                    class="relative z-10 overflow-y-auto overflow-x-hidden px-[1rem] lg:px-[2.33rem] py-[1.5rem] lg:py-[1rem] max-h-[calc(100svh-3rem)] lg:max-h-[calc(100vh-3rem)]">
                     <h2 class="text-accent uppercase font-book text-3xl" style="letter-spacing: 0.02em !important">
                         Noteikumi
                     </h2>
